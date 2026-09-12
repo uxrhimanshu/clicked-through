@@ -1,0 +1,880 @@
+thread_id,item_id,parent_id,depth,kind,author,created_utc,score,title,text,permalink
+25726036,25726036,,0,post,A18,2021-01-11T08:00:32Z,1,WTF Is Alert Fatigue,,https://news.ycombinator.com/item?id=25726036
+26401821,26401821,,0,post,A80,2021-03-09T18:24:07Z,4,Alert Fatigue and Your Health,,https://news.ycombinator.com/item?id=26401821
+27453485,27453485,,0,post,A79,2021-06-09T21:29:42Z,2,"Cybersecurity alert fatigue: why it happens, why it sucks, what to do about it",,https://news.ycombinator.com/item?id=27453485
+27672373,27672373,,0,post,A21,2021-06-29T06:04:58Z,1,Ask HN: Why does Chrome not trust this trusted valid cert?,"I was reading an article about how Apple is asking some of its employees to wear police-grade bodycams[0] and clicked to view the product it was referencing. Once on the manufacturer's website[1] I was wondering how much they cost so I clicked the Buy button which took me to their buy subdomain[2], but then I got a certificate error. I can't figure out why. The issue can be reproduced on another M1 MacBook Air with the same Chrome version but not on Ubuntu 20.04 with the same Chrome version. Chrome uses the system's certificate store so if the dialog says trusted - which it does - my understanding is that it should not be showing this error.
+
+I'm on an M1 MacBook Air running Big Sur 11.4. Chrome is version 91.0.4472.114 (Official Build) (arm64).
+
+Video: https://www.dropbox.com/s/1vrftuwtx4s1gf8/untrusted.mkv?dl=0
+
+[0] https://www.frontpagetech.com/2021/06/28/exclusive-apple-making-employees-wear-police-grade-body-cams-in-response-to-leaks/
+
+[1] https://www.axon.com/products/axon-body-2
+
+[2] https://buy.axon.com/ccrz__ProductDetails?viewState=DetailView&cartID=&portalUser=&store=&cclcl=en_US&sku=74004",https://news.ycombinator.com/item?id=27672373
+27728287,27731210,27728287,1,comment,A20,2021-07-04T17:27:37Z,0,Single random bit flip causes error in certificate transparency log,"OP here. Unless you work for a certificate authority or a web browser, this event will have zero impact on you. While this particular CT log has failed, there are many other CT logs, and certificates are required to be logged to 2-3 different logs (depending on certificate lifetime) so that if a log fails web browsers can rely on one of the other logs to ensure the certificate is publicly logged.
+
+This is the 8th log to fail (although the first caused by a bit flip), and log failure has never caused a user-facing certificate error. The overall CT ecosystem has proven very resilient, even if a bit flip can take out an individual log.
+
+(P.S. No one knows if it was really a cosmic ray or not. But it's almost certainly a random hardware error rather than a software bug, and cosmic ray is just the informal term people like to use for unexplained hardware bit flips.)",https://news.ycombinator.com/item?id=27731210
+28155730,28155730,,0,post,A19,2021-08-12T13:03:32Z,1,How to Redirect or Forward HTTPS a Domain to Another Without Certificate Errors,,https://news.ycombinator.com/item?id=28155730
+29140459,29140459,,0,post,A78,2021-11-07T15:54:17Z,3,Preventing Alert Fatigue,,https://news.ycombinator.com/item?id=29140459
+29226864,29226864,,0,post,A77,2021-11-15T13:05:56Z,163,Launch HN: Metaplane (YC W20) – Datadog for Data,"Hey HN! We’re Kevin, Guru, and Peter from Metaplane (https://metaplane.dev). Metaplane is a data observability tool that continuously monitors your data stack, alerts you when something goes wrong, and provides relevant metadata to help you debug.
+
+Data teams are often the last to know about data-related issues. They commonly find out only when an executive messages them about a broken dashboard. This is comparable to finding out about your servers being down only when your end users report it! In software engineering, this problem is solved with observability tools like Datadog and SignalFx. These monitor your system over time by tracking metrics (like CPU, memory usage or any arbitrary value), and sending alerts when they hit thresholds or are anomalous.
+
+Metaplane solves this problem for data teams. We continuously monitor our users’ data warehouse tables and columns, testing for things like row counts, freshness, cardinality, uniqueness, nullness, and statistical properties like mean/median/min/max, as well as schema changes. After we build up a baseline of data points for each of these tests, we send alerts on anomalies to the user's Slack channel. Each alert includes metadata like upstream/downstream tables and BI dashboards affected by the issue, so that the user can assess how important the issue is and how quickly it should be addressed.
+
+We're particularly careful about alert fatigue and false positives. Since we can't ask users to set manual thresholds (they would be changing all the time), we have to make a reasonable prediction based on past data, which can result in false positives and false negatives. If we under-alert, we miss important issues, but if we over-alert, users become desensitized and start ignoring alerts. Our solution is to include ""Mark as anomaly"" and ""Mark as normal"" buttons with each alert, for users to provide feedback to the model.
+
+To give a common example, Metaplane can tell you that a revenue metric in a Snowflake column has spiked from $100 to $10,000 in an unexpected way. The alert includes upstream dependencies in dbt and downstream Looker dashboards that are impacted. Another example is if a table in Redshift that is usually updated every day hasn’t been updated in over 48 hours. A third example is if a table in BigQuery that typically increments 10M rows every day suddenly adds only 1M rows because of an upstream vendor bug. These are all what we think of as “silent data bugs” — all systems are green, but your data is just wrong!
+
+Over the last eight months, we've caught problems like these for data teams at dozens of companies including Imperfect Foods, Drift, Vendr, Reforge, Air Up, Teachable, and Appcues.
+
+Today, we’re excited to launch our self-serve product and free plan with the HN community. Setting up monitoring for your data stack takes less than 10 minutes. Here's a 4 minute demo video to see how it works: https://www.loom.com/share/1aa54eb8b45548e180f6ab3a4a580cc5. We make money by charging for more tests and team/enterprise features. You can use our new free plan or try out all of our features in a 30 day trial, no credit card required.
+
+Our goal is to help data teams of any size be the first to know about data issues. We think observability will become as much of a no-brainer to data teams as it is to software engineers today. Starting on AWS?—get Datadog. Bringing on Snowflake?—get a data observability tool (hopefully ours!). Eventually we want to support more use cases that you’d expect from a Datadog for data, like log centralization and diagnostics, spend monitoring, performance insights, and deep integration with upstream applications. For now, we’re just starting where the pain is highest.
+
+We'd love to hear your ideas, experiences, and feedback, and will be answering any questions in the comments!",https://news.ycombinator.com/item?id=29226864
+30660583,30660583,,0,post,A18,2022-03-13T12:17:52Z,1,Debugging Certificate Errors,,https://news.ycombinator.com/item?id=30660583
+31239690,31239690,,0,post,A17,2022-05-02T19:29:24Z,3,Certificate error for bitbucket.org on Chrome browsers,,https://news.ycombinator.com/item?id=31239690
+31549457,31549457,,0,post,A15,2022-05-29T14:36:15Z,1,How is the Dutch government censoring rt.com?,"This was not a problem when connecting from the United States a month ago. I cleared HSTS settings for the rt.com domain but when connecting to the HTTP (not the HTTPS) site, I am redirected to an HTTPS version of the page which immediately leads to an HTTPS certificate error.
+
+Interesting, https://sputniknews.com/ is redirected to an ISP hosted web page which reads: Deze website is geblokkeerd
+Europese sancties
+De Raad van Europa heeft besloten dat de websites van RT (voorheen Russia Today) en Sputnik News niet meer mogen worden doorgegeven. De website die je probeert te bezoeken, valt onder deze Europese sanctie.
+
+VodafoneZiggo is verplicht de sanctie uit te voeren en heeft de website geblokkeerd.
+
+rt.com is a different story. I truly don't comprehend what is happening here.
+
+Is the Dutch government redirecting HTTP requests to rt.com with a MITM proxy to a virtual site with an invalid HTTPS configuration? The certificate is downright bizzare:
+
+Your connection is not private
+Attackers might be trying to steal your information from rt.com (for example, passwords, messages, or credit cards). Learn more
+NET::ERR_CERT_AUTHORITY_INVALID
+Subject: advice.upc.biz
+
+Issuer: advice.upc.biz
+
+Expires on: Jan 5, 2037
+
+Current date: May 29, 2022
+
+PEM encoded chain:
+-----BEGIN CERTIFICATE-----
+MIIDaTCCAlGgAwIBAgIJAPq3QyiRNEsWMA0GCSqGSIb3DQEBCwUAMEsxCzAJBgNV
+BAYTAk5MMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxDDAKBgNVBAoMA0xHSTEXMBUG
+A1UEAwwOYWR2aWNlLnVwYy5iaXowHhcNMTcwMTEwMTQxOTUzWhcNMzcwMTA1MTQx
+OTUzWjBLMQswCQYDVQQGEwJOTDEVMBMGA1UEBwwMRGVmYXVsdCBDaXR5MQwwCgYD
+VQQKDANMR0kxFzAVBgNVBAMMDmFkdmljZS51cGMuYml6MIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAxLufIHhWFmTX8QS3eD5tZ94TidmOvH9JMvTlBWBN
+UJI6ZmPfo8k8KvgifFyNMtLfIpi3COorcEAhwfp5tVuOsrp5TaLPTZv7ESBgOHbw
+pfTc4TVeyfRjIC3xeyzGRSONaDbXkckqPwd7dhJPMyX9kGyFv/Vj+corPt2uNwjE
+pzoZCRqAF9bcxgZ97Ap91pJGZSotWszZliQuxGiaNzdg6nEVC4MuZRYN0SKdT0je
+oRB5KuJp8qZKa3cSTkdC31Kl9gKAnP9iaSv8AOFzguBiFVZhmBLrQrSnELS6sDJv
+N+m5UMyURcrrHpK3lr6OMxcOAMOdB3kEWwXqARJ5s0Qu8QIDAQABo1AwTjAdBgNV
+HQ4EFgQUvKk/V7OvXs4Hn7/s7Uyn0XD6SZgwHwYDVR0jBBgwFoAUvKk/V7OvXs4H
+n7/s7Uyn0XD6SZgwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAb8BM
+RyVBHI8Z9T3qUtYbP/rR9SB4bg2vVqV2+dZbVmCNfehaC/6ad0XaOs/48Vy1TWvJ
+rNF9j2R1HkwKawmvy2bk7lit+0Cg1zIg/40KsoqyEg7v7WIWgm0UUz1JQmOUTn1V
+HQTmZVq2gLE5mYcQ2BYkGDt479Z/VQqRYOPF8svY3h/uoPQ1vk1Kwk5LQ+HianaB
+uMiwVmSHDaaUNakwi6Erk/1nV/aSJz8+fXkfslFCHGtKdQUbmBN3zY0BWFSFPCLQ
+kSEK3Yzg2ZhmSjXLXJW2XNicKL0fpGfa+j1hHzvDjHWYmACl9POIMcocVFAmsBAr
+8lyccHaN2KRx2L1JUg==
+-----END CERTIFICATE-----",https://news.ycombinator.com/item?id=31549457
+31549457,31549591,31549457,1,comment,A16,2022-05-29T14:53:37Z,0,How is the Dutch government censoring rt.com?,"Make sure that you don’t use the default DNS servers of your ISP, but those of Google, OpenDNS or Cloudflare. Most of these redirects are done at the DNS level. This could also explain the certificate error, if the cerificate is for another domain than rt.com.",https://news.ycombinator.com/item?id=31549591
+31549457,31551710,31549726,3,comment,A16,2022-05-29T18:51:03Z,0,How is the Dutch government censoring rt.com?,"If the DNS server of your local ISP maps rt.com into an IP address that it controls but for which the server has a certificate for a different domain, i.e. upc.biz, there is a conflict: your browser still has rt.com in the address bar (it is not a http redirect) but it sees a certificate for upc.biz, so it reports a certificate error.",https://news.ycombinator.com/item?id=31551710
+31845031,31845031,,0,post,A51,2022-06-23T03:59:03Z,1,Tell HN: Indonesian Telekomsel provider breaks HTTPS,"I almost always use my own hotspot on my phone. I've noticed that since I arrived in Indonesia, I've been getting ssl warnings which say: ""Warning: potential security risk ahead""
+
+Hacker news and half of the internet has become unuasble without a VPN.
+
+https://imgur.com/a/KZMxSMR
+
+Can somebody explain to me why this is happening?",https://news.ycombinator.com/item?id=31845031
+32231100,32231100,,0,post,A14,2022-07-25T21:21:24Z,2,Ask HN: How do I force network failures during development against remote APIs?,"I am working on a gateway product and would like to start focusing on reliability and handling intermediate networking errors. What are some techniques and tools I can use to force them so that I can write code that gracefully handles them? I am thinking stuff like certificate errors, DNS lookup failures, socket disconnected errors, timeouts, invalid data returned over the socket when expecting HTTP.
+
+Thanks.",https://news.ycombinator.com/item?id=32231100
+32585258,32585258,,0,post,A71,2022-08-24T20:23:26Z,1,How We built the Alert Similarity feature to fight alert fatigue,,https://news.ycombinator.com/item?id=32585258
+32820722,32821864,32820722,1,comment,A42,2022-09-13T08:25:25Z,0,Why HTTP without encryption and self-signed sertificates are OK,"My comments:
+
+> When connecting to the internet required calling the ISP with a modem, it was 
+possible to encrypt the whole call
+
+Assuming this is talking about MPPE for PPP, it's completely broken[1].
+
+> if the server also has (and it probably will have) a trusted connection to the public internet and the route of the packages between the server and the user's ISP is known.
+
+Trustworthy connections to the public internet don't really exist. Routes can be changed via BGP hijacks at any time[2].
+
+> Often the route of the packages is also completely known (for example in intranets)
+
+Intranets are almost always vulnerable to MitM via ARP spoofing[3].
+
+> Are we encrypting a wrong protocol?
+
+This point argues that it is wasteful to wrap end-to-end encrypted messages with HTTPS/TLS. Given how regularly people botch implementing things like that, HTTPS/TLS provides a useful safety net - and the overhead is negligible.
+
+> there is nothing wrong with self-signed certificates as long as the browser actually shows the relevant information (the public key etc.) so that the user can make sure that the other end of the connection really is what it claims to be.
+
+The vast majority of users cannot do the ""making sure"" bit suggested here. Of those who can, the vast majority (including myself here) don't.
+
+> Allow using the site with retro hardware.
+
+This can be solved with a proxy.
+
+> some [...] cannot afford a newer, more modern device. Continually imposing new technical requirements for accessing the site may be discriminating against these people.
+
+I expect that the vast majority of devices less than 10 (even 15) years old can run software which can handle modern protocols just fine.
+
+> Let the user decide. [...] Web browsers, and in many cases also servers, should respect the user's choice.
+
+The vast majority of users are incapable of meaningfully consenting to unencrypted connections.
+
+1. https://www.computerworld.com/article/2505117/tools-released...
+
+2. https://www.theverge.com/2018/4/24/17275982/myetherwallet-ha...
+
+3. https://en.wikipedia.org/wiki/ARP_spoofing",https://news.ycombinator.com/item?id=32821864
+32820722,32826592,32822070,2,comment,A43,2022-09-13T16:35:05Z,0,Why HTTP without encryption and self-signed sertificates are OK,"All browsers (even smartphones) support importing certificate files. The exception are Windows PCs on domain lockdown. Non-corporate-supported browsers might transition to being more friendly to this process instead of the unhelpful and scary SSL warnings provided now.
+
+Phone app traffic that isn't through a browser would be in a rougher situation, but it would be solveable by your major phone app store providers offering their own root certificates. Since there is only Google and Android, any app provider wanting to target all smartphone users would have to get a cert from one of them, and it would probably be rolled into any developer fees and sold as part of a larger security program.",https://news.ycombinator.com/item?id=32826592
+32820722,32827312,32820722,1,comment,A45,2022-09-13T17:19:21Z,0,Why HTTP without encryption and self-signed sertificates are OK,"> There used to be a time when malicious websites usually didn't have encryption at all, or if they had, their certificate was self-signed. Let's Encrypt changed that. Now every malicious site has a certificate that appears trusted, and there will soon be a need of having different levels of ""trust"", where free-of-charge certificates like the ones from Let's Encrypt will become essentially untrusted.
+
+First off, this grossly misunderstands what a certificate does. All it does is prove that your browser is having a private conversation with the remote server. The remote server might be evil, but that's not what a certificate solves.
+
+Malicious sites didn't have valid certs because certs used to be overpriced and the people that ran them wanted to minimize the paper trail as much as possible.
+
+> Self-signed certificates used to be considered fine, but now every mainstream browser shows a scary warning before entering a site with such certificate. The same will happen to the certificates from Let's Encrypt
+
+You're jumping to quite the conclusion.
+
+Let's Encrypt is such a huge part of the Internet now that I don't think browser vendors could decide to just stop trusting their certs. Even if they did, another free certificate vendor would appear and we'd be back at square one.
+
+> Phishing websites also did not have lookalike domains before unicode characters were allowed in domain names.
+
+Factually incorrect.
+
+I have to be honest, this feels like a troll post. There's so much misinformation, misunderstanding, and unrealistic expectations that I can't take it seriously. What you're asking for is dangerous and would lead to massive amounts of data compromise.",https://news.ycombinator.com/item?id=32827312
+32820722,32836962,32827312,2,comment,A44,2022-09-14T13:34:49Z,0,Why HTTP without encryption and self-signed sertificates are OK,"When I'm talking about ""lookalike domains"", I mean domain names that look exactly the same. It is simply not possible with 7-bit ASCII.
+
+A self-signed certificate can also be used to make sure that the connection is private. Sometimes the private key may have leaked and then the certificate can be ""trusted"" without being private - though it's easier to just register a lookalike domain and a certificate for it than have a leaked private key.",https://news.ycombinator.com/item?id=32836962
+32820722,32837026,32826592,3,comment,A44,2022-09-14T13:40:37Z,0,Why HTTP without encryption and self-signed sertificates are OK,"> Non-corporate-supported browsers might transition to being more friendly to this process instead of the unhelpful and scary SSL warnings provided now.
+
+That's exactly what I would like to see happening. The current warnings make no sense and they only make security worse.
+
+Browsers are not different from any other applications at this.",https://news.ycombinator.com/item?id=32837026
+33107611,33107611,,0,post,A41,2022-10-06T12:53:15Z,23,Ask HN: Is DNS and HTTPS on a private network a problem for you?,"Recently I've been setting up a private network for myself and I wanted to expose some services over HTTPS. The only reliable method I came up with was to buy a public domain and point its DNS records to private IPs, then I could generate Let's Encrypt certificates with a DNS challenge.
+
+The downside is that my internal domain names are now public (e.g. you can find them by looking up issued certificates for my domain through https://crt.sh or https://developers.facebook.com/tools/ct/, or by looking up the public DNS records).
+
+I could keep it all private if I set up my own root certificate, trusted it on all of my machines, and issued self-signed certificates. I could also set up my own DNS server and make all my machines use it. Needless to say, that's way more hassle than just making everything public and buying a domain.
+
+Another way to keep it private is to issue a wildcard certificate through Let's Encrypt and point my DNS records to a reverse proxy which would use the certificate. This would require all network traffic to pass through the proxy, making it a single point of failure.
+
+Have you encountered this problem before? Did you solve making your internal DNS private?",https://news.ycombinator.com/item?id=33107611
+33200193,33200193,,0,post,A40,2022-10-14T06:17:55Z,3,Self-Signed Certificates and Key Ceremonies,,https://news.ycombinator.com/item?id=33200193
+33418969,33418969,,0,post,A76,2022-11-01T09:48:13Z,5,Saving your team from alert fatigue,,https://news.ycombinator.com/item?id=33418969
+33433954,33433954,,0,post,A76,2022-11-02T11:12:19Z,2,Saving your team from alert fatigue,,https://news.ycombinator.com/item?id=33433954
+33564592,33564592,,0,post,A13,2022-11-11T18:22:08Z,10,Show HN: A silly JavaScript-free web browser in the browser,"This is a browser front-end (ultra simple) for Chrome, built using puppeteer. I like it because it provides a usable single browser tab (that conveniently crashes on certificate errors (thanks to puppeteers default flags which I haven't altered here)), without using any JS scripting on the client side.
+
+There's some clever hacks to get that to work, including stylesheet media queries (to zero in on the correct viewport dimensions), and MJPEG, a crazy HTTP keep-alive way to stream JPEG frames of a video, favored by old-style CCTV/security/web cameras allegedly.
+
+I noticed it went from 18 to 19 stars yesterday so I decided to fire it up again to see what all the fuss was about, and do the minimum to fix the tiniest number of bugs to improve the install process for folks wanting to check it out (removing the default sudo install scripts in the npm postinstall was a good idea, heh).
+
+I plan to set up a silly demo of this sometime, so all can join in the fun on a server. It's just really ridiculous to see a modern web site ""render"" with a ridiculous UI controlled by: URL bar, Down button (scroll down), Up button (scroll up), ""Enter text"" field (that only pops up when a text control is focused ~~ wow, if I say so myself ;p ;) xx ;P )
+
+I almost forgot the URL: https://github.com/crisdosyago/puppetromium",https://news.ycombinator.com/item?id=33564592
+33776703,33776703,,0,post,A12,2022-11-28T17:42:35Z,1,Solving Cloudwatch Synthetic Canary self-signed certificate error,,https://news.ycombinator.com/item?id=33776703
+34647054,34647054,,0,post,A75,2023-02-03T20:10:08Z,2,Ask HN: What are you using for alerting?,"Can't seem to find a decent alerting product, what are you using for alerting and how do you avoid alert fatigue?",https://news.ycombinator.com/item?id=34647054
+35295301,35295301,,0,post,A11,2023-03-24T20:52:58Z,6,Damnit GitHub is down due to HTTPS certificate error,,https://news.ycombinator.com/item?id=35295301
+35427910,35427910,,0,post,A49,2023-04-03T17:31:28Z,1,Tell HN: Something is up with YouTube can't post comments,"And trying to access one's account page is throwing all sorts of errors in the dev console.
+
+Also, getting random expired / missing cert warnings.
+
+What the hell is going on with YouTube today?",https://news.ycombinator.com/item?id=35427910
+35630207,35630207,,0,post,A10,2023-04-19T16:33:00Z,1,Ask HN: I am getting a certificate error on Reddit.com. Is anyone else facing it,,https://news.ycombinator.com/item?id=35630207
+35793849,35793849,,0,post,A74,2023-05-02T20:38:07Z,4,Dependabot relieves alert fatigue from NPM devDependencies,,https://news.ycombinator.com/item?id=35793849
+35800927,35800927,,0,post,A39,2023-05-03T11:18:17Z,1,Self-signed certificate in chain for diagnostics.apple.com,"So we've all seen apple's first ever rapid security response update roll out in the past few days.
+
+Now - a few days - later, the diagnostic console interface for apple service techs will show that the CA for the site is untrusted (everywhere but in safari of course).
+
+As it is the apple way to not actually inform about the security implications pre patch, I'm here to ask and ponder what is going on over there?
+
+Here's the excerpt of openssl s_client diagnostics.apple.com:443
+
+https://pastebin.com/UjSFq6RT",https://news.ycombinator.com/item?id=35800927
+36054797,36054797,,0,post,A92,2023-05-24T06:32:29Z,3,Getting rid of phishing training mails,,https://news.ycombinator.com/item?id=36054797
+36349820,36349820,,0,post,A73,2023-06-16T01:39:49Z,1,"SoCs face alert fatigue, false positives, decreased visibility, burnout",,https://news.ycombinator.com/item?id=36349820
+36491321,36491321,,0,post,A31,2023-06-27T11:11:59Z,40,What if your Pods need to trust self-signed certificates?,,https://news.ycombinator.com/item?id=36491321
+36491321,36505906,36491321,1,comment,A32,2023-06-28T13:10:18Z,0,What if your Pods need to trust self-signed certificates?,"In the age of cheap certs, it's not clear to me why we have these enterprises with self-signed certificates. It definitely is a thing, but it seems to be tech debt that we should fix.",https://news.ycombinator.com/item?id=36505906
+36491321,36506258,36505906,2,comment,A37,2023-06-28T13:37:02Z,0,What if your Pods need to trust self-signed certificates?,"From integrators' perspective, a lot of TLS stuff is often worthless, but cannot be avoided because that's how the program was written. Eg. you (an integrator) provide a service of installing and configuring Docker registry / Harbor for air-gapped systems. The intended use is to support locally deployed Kubernetes... but you have to deal with the nonsense of certificates, because removing that stuff completely from both Kubernetes and the registry is just too hard.
+
+So, self-signed certificate is the easiest and fastest way to solve this problem.
+
+PS. Also, custom CA certificates don't work well with browsers -- browsers like to cache them and won't let go of them easily. This has adverse effects on automated UI testing with Selenium. I.e. say, you need to modify something in your cert (usually something like a domain name) and then the browser will refuse to accept it because it remembers the old one somehow...
+
+Another problem is that errors related to certificates are very hard to debug. The popular libraries (eg. essentially, OpenSSL) are trash when it comes to error reporting. You never get clear error messages, nor a suggestion on how to fix errors. The whole thing lives in obscurity, and CAs are even worse documented than the process of creating self-signed certificates. So, people looking to solve a problem choose a solution they can find, instead of the best solution.",https://news.ycombinator.com/item?id=36506258
+36491321,36507168,36506230,5,comment,A33,2023-06-28T14:42:19Z,0,What if your Pods need to trust self-signed certificates?,"There are tons of reasons to not use an internal CA.
+
+First, cost. You're not just going to slap the root CA onto the network drive and let the developers have at it - you're going to need infrastructure to keep the key safe and handle automated cert provisioning and suchlike - that's going to need people to maintain it. And it'll be an important part of your infrastructure, so you'll need enough experts you can maintain round-the-clock support.
+
+Second, it reduces your security because your users will inevitably learn to ignore certificate errors.
+
+Thirdly, you'll never stop the certificate errors. Oh, you're going to set them up for both Chrome and Firefox and Edge and Safari on Windows, Mac, Linux? Oops, you forgot Android and iPhone. And your CI system. And Java and Docker and Git. And the network printer and the electronics team's network-enabled oscilloscope. Think you've covered everything? Surprise, Slack is distributed in a Snap now, it's generating certificate errors.
+
+Just have your cloud provider take care of it. Not in the cloud? A wildcard cert on your load balancer will get you 99% of the value with 1% of the work.",https://news.ycombinator.com/item?id=36507168
+36491321,36507332,36507168,6,comment,A34,2023-06-28T14:53:09Z,0,What if your Pods need to trust self-signed certificates?,"So I'll route my CI integration tests that test communication from application to database through the loadbalancer? And I'll teach the loadbalancer to talk to itself to talk to the autoscaling web backends it needs to talk to because only the loadbalancer has a valid certificate? Nice brain-knot.
+
+And talking about security risks, wildcard certs are especially dangerous and should be forbidden from ever existing. They just lead to ""copy it everywhere""-keys that, sooner or later, will leak. And that won't be revoked or replaced, because of course everything will break at once.
+
+Oh, and the certificate errors will also come with external CAs. Chain too long? Error in some browsers. ECC signature? Error in some browsers. Chain with different paths? Error in some browsers. 4096bit certificate somewhere? Error in some browsers. Two different valid roots? Error in some browsers.",https://news.ycombinator.com/item?id=36507332
+36491321,36507341,36507168,6,comment,A35,2023-06-28T14:53:51Z,0,What if your Pods need to trust self-signed certificates?,"The result is different when comparing to self-signed certificates. For instance, yes you should be careful with your key, but losing it makes your security as bad as when using self-signed certificates. Yes, you might be teaching some of your users to bypass the warnings. Just like when using self-signed certificates.",https://news.ycombinator.com/item?id=36507341
+36491321,36508908,36508293,8,comment,A36,2023-06-28T16:34:34Z,0,What if your Pods need to trust self-signed certificates?,"You're still talking about a completely unrelated use of CAs here. We're talking about how you get two k8s pods to communicate with each other securely, as an alternative to using self-signed certificates and without leaking details of your internal infrastructure to a CT log. Nobody suggested using self-signed certificates for any of the things you're talking about; we are talking about what you should replace your self-signed certificates with. That's what both the article and this thread are about. You're arguing against a point that nobody made. You'd never use a self-signed certificate for a user-facing website or service and nobody suggested that you would. It is specifically the situations where you'd use a self-signed certificate that this subthread is suggesting using an internal CA for instead.
+
+Stated another way, I believe you are saying ""don't use internal CAs for things you'd otherwise use public certificates for"" but what we're saying is ""use internal CAs for things you'd otherwise use self-signed certificates for"". I believe both statements are correct but we weren't talking about the first thing at all until you brought it up.",https://news.ycombinator.com/item?id=36508908
+36491321,36512276,36491321,1,comment,A38,2023-06-28T20:39:54Z,0,What if your Pods need to trust self-signed certificates?,"I've been working on a different approach to try to make it as easy as possible to use certificates from public CAs for private networks. I think it's really hard to get all your trust stores updated with private CA certs; there's just too many of them. I've encountered devices that weren't properly configured at every company I've worked at. Any time you've got a BYOD policy, a variety of mobile devices, or engineers are spinning up their own VMs (which don't copy the trust store of the host) you're going to see certificate warning messages. Back when every computer ran Windows and was chained to the desk it was easier for IT departments to update trust stores, but the world has changed and it's a losing battle.
+
+I think the better approach is to just use certificates from public CAs on private networks. There's some big issues to address: how does the public CA verify internal servers which don't permit external connections, is leaking internal subdomain names a security issue? But I think these are solvable.
+
+getlocalcert.net[1] is my project to simplify the process. Currently you can register a subdomain and use the ACME DNS-01 protocol via my site to issue certificates from from providers like Let's Encrypt. All you need to issue a certificate is a getlocalcert API key and the ability to connect out-bound to the Let's Encrypt API and the getlocalcert API. It supports a couple ACME clients and it should support cert-manager, mentioned in the article, but I haven't had a chance to test and properly document it[2]. I'm not doing anything that other subdomain registrars or DNS providers can't do, but I'm trying to address the public-CA-on-private-server niche as best as possible. Longer term I'm looking to add bring-your-own-domain support and other improvements.
+
+[1] https://www.getlocalcert.net/
+
+[2] https://docs.getlocalcert.net/acme-clients/cert-manager/",https://news.ycombinator.com/item?id=36512276
+36491321,36513476,36506258,3,comment,A38,2023-06-28T22:24:54Z,0,What if your Pods need to trust self-signed certificates?,"A reverse proxy is another good way to handle those. The proxy trusts the self-signed certificate and itself has a valid certificate from a CA the clients trust (either public or private). This way setup on the integrator's product is easy and client's aren't exposed to ""hard to verify"" certificates.",https://news.ycombinator.com/item?id=36513476
+36735897,36735897,,0,post,A50,2023-07-15T12:17:06Z,1,Tell HN: MitM Attacks on Windscribe VPN,"I've used Windscribe VPN for many years, but in recent months I've been getting SSL warnings in Chrome and Firefox. It's usually limited to specific locations, so I'll usually just connect to a different location, but the warnings are becoming more frequent. Now I've started getting ""deceptive website"" warnings in Chrome on random websites.
+
+I don't know if it's necessarily Windscribe themselves perpetrating these attacks, but most VPN providers don't own all their servers, rather they will rent many servers at various locations around the world. I suspect it may be rented servers at fault, as I mentioned before, it's usually only specific locations where I get these warnings.",https://news.ycombinator.com/item?id=36735897
+37216150,37216150,,0,post,A72,2023-08-21T22:24:14Z,7,Ask HN: Emergency Notifications Explosion,"Just curious here, I'm getting an explosion of Emergency Notifications from my local government, mostly police and my children's school.
+
+We are told to avoid certain areas sometimes, or just about relatively minor events on campus, like paramedic visits. These happen a couple times a month at least. Now my employer is offering to send me emergency notifications, even though I'm entirely remote.
+
+I'm not sure what to think of this. Are there more emergencies now, or is it that they're able to send them more easily, so they do?
+
+Rather than feel reassured by them I must admit I find them unsettling. I'm routinely being reminded things are going wrong somewhere for someone near me. I never learn what happened or who it happened to.
+
+I honestly don't know how I feel about them yet. Yes, they can do some good, but I know from my work that too many notifications can generate Alert Fatigue and be counter-productive.
+
+I'm curious about the HN community's view on this.",https://news.ycombinator.com/item?id=37216150
+37321957,37321957,,0,post,A30,2023-08-30T13:36:53Z,1,"Show HN: Combobulator – a locally run, management web-app for Amazon Redshift","1. I have for some time been working on a browser-based app which is a management console for Amazon Redshift.
+
+2. It is not cloud based - you run it locally, no network access, no superuser, and no privs to read your actual tables; the design is intended to make it viable to use with the most sensitive of data.
+
+3. While the Russo-Ukraine war continues, all income barring business costs goes to the Ukrainian military.
+
+The home page for Combobulator is here;
+
+https://www.redshiftresearchproject.org/combobulator/index.html
+
+The live demonstration system is here;
+
+https://34.200.189.75
+
+Combobulator uses HTTPS, but where there is no IP name, a self-signed SSL certificate has to be used; you’ll need to click through the warnings from the browser.",https://news.ycombinator.com/item?id=37321957
+37495679,37495679,,0,post,A71,2023-09-13T12:13:52Z,2,Vector Embeddings as the Antidote to Psychotic LLMs and a Cure for Alert Fatigue,,https://news.ycombinator.com/item?id=37495679
+38036203,38036204,38036203,1,comment,A29,2023-10-27T09:04:33Z,0,Self-Signed locally trusted certificates with cert-manager,"Hello folks!
+
+Thought I'd share some insights in how I set up test frameworks using cert-manager for generating self-signed certificates. And then making them locally trusted using mkcert for easy install.
+
+I think it's neat, but it does have its caveats as everything I suppose. :)
+
+Thanks!",https://news.ycombinator.com/item?id=38036204
+38518639,38518639,,0,post,A9,2023-12-04T15:43:49Z,1,Ask HN: Are you having trouble reaching Bitly.com,"It shows a certificate error, and if you proceed anyway it goes to a GoDaddy page.
+
+https://bit.ly/ short domains do not seem to be affected.",https://news.ycombinator.com/item?id=38518639
+38542112,38542112,,0,post,A28,2023-12-06T09:55:42Z,2,Ask HN: Using WebSockets instead of mqtt for IoT,"I recently worked on a personal project where I wanted to connect multiple ESP32's to a web app. Previously I've used mqtt to do this and also done this in several work projects, but I decided to try something different and use websockets as ESP-IDF has a websocket client.
+It worked really well and ended up in a much simpler setup, I didn't need an mqtt broker or a long running process listening to the broker, which meant it was much easier to deploy.
+Previously I'd had to create a CA and generate self-signed certificates for each device, but with websockets this doesn't seem necessary and is handled transparently by the webserver.
+
+A few other advantages are:
+- it can have actual end-to-end confirmation, unlike MQTT which is only between client and broker
+- port 443 won't be blocked
+- much easier to develop and test locally
+
+So my question is, is anyone else doing this at scale, is there something I haven't thought of?",https://news.ycombinator.com/item?id=38542112
+38989653,38989653,,0,post,A18,2024-01-14T12:00:39Z,1,Best Practices to Prevent Alert Fatigue,,https://news.ycombinator.com/item?id=38989653
+39249237,39249237,,0,post,A70,2024-02-04T10:56:54Z,1,Best practices to prevent alert fatigue,,https://news.ycombinator.com/item?id=39249237
+39737209,39737209,,0,post,A27,2024-03-17T19:24:35Z,6,Show HN: Website for creating self-signed certificates,"If you're developing locally and need to use HTTPS for whatever, then this tool is hopefully useful to you.
+
+I made it because there's a lot of bad info online about generating self-signed certificates. For instance, a lot of guides don't use the SAN list extension or show you how to create a proper certificate chain. Firefox doesn't allow a CA certificate to be used as an end certificate. Getting a working certificate can get pretty confusing, especially for newcomers to certificates or webdev.
+
+Having a website for this also means the process of getting a certificate is the same, no matter if you're on a Unix-like OS or Windows.
+
+A WebAssembly module built with C++ and Mbed TLS is used to create the keys and certificates. TypeScript and Preact is used for the UI.",https://news.ycombinator.com/item?id=39737209
+40017198,40017198,,0,post,A69,2024-04-12T20:18:09Z,3,Fighting Alert Fatigue,,https://news.ycombinator.com/item?id=40017198
+40146382,40146382,,0,post,A69,2024-04-24T16:28:38Z,1,Fighting Alert Fatigue with Synthetic Monitoring,,https://news.ycombinator.com/item?id=40146382
+40335948,40335948,,0,post,A26,2024-05-12T17:10:44Z,1,"Self-signed certificate for local development (OpenSSL, JavaScript)",,https://news.ycombinator.com/item?id=40335948
+40775290,40775290,,0,post,A68,2024-06-24T12:37:25Z,3,Show HN: Better Uptime Monitoring,"Hey HN,
+
+We’re excited to introduce Prober, a new uptime monitoring tool designed to ensure your sites stay up and running smoothly.
+
+What is Prober?
+Prober is an easy-to-use, reliable service that continuously monitors the uptime of your websites and services from around the world. When downtime strikes or performance issues arise, Prober sends immediate notifications, allowing you to address problems before they impact your users.
+
+Key Features:
+
+- Real-Time Monitoring: Keep track of your site's status 24/7 with continuous checks from multiple locations around the globe.
+- Instant Notifications: Get notified instantly via email, SMS, or your preferred chat platform (Slack, Teams, etc.) when your site goes down or experiences performance issues.
+- Detailed Insights: Access detailed reports and analytics on uptime, response times, and more to help you understand and improve your site's performance.
+- Customizable Alerts: Set custom alert thresholds and notification preferences to fit your specific needs and avoid alert fatigue.
+User-Friendly Dashboard: A clean, intuitive interface that makes it easy to monitor your sites at a glance.
+
+Why Prober?
+We created Prober because we know how critical it is to maintain uptime and respond quickly to any issues. Most of the uptime monitoring tools we used were very complicated and catered more to enterprises. Our team wanted to build something simpler to use and offer more value for smaller teams. You'll see that our pricing is sometimes 25% of what other tools charge with 80% of the features!
+
+Try Prober Free!
+We’re offering a 14-day free trial to experience Prober's benefits firsthand. Check it out at Prober and let us know your thoughts. We’re eager to hear your feedback and learn how we can make Prober even better for you.
+
+PS: If you email us at info@postseam.com and mention this post, we’d be happy to extend your free trial period significantly. We’re looking forward to connecting with you and supporting your uptime needs!
+
+Happy monitoring!
+Prober team",https://news.ycombinator.com/item?id=40775290
+40926186,40926186,,0,post,A8,2024-07-10T12:31:42Z,1,Ask HN: Getting a certificate error with Cloudflare dashboard?,Anyone else trying to log into Cloudflare and getting an invalid certificate error?,https://news.ycombinator.com/item?id=40926186
+41436340,41436340,,0,post,A25,2024-09-03T16:08:58Z,1,Tell HN: Microsoft Remote Desktop app for iOS does not verify server certificate,"By default (in the absence of a CA-signed server certificate), RDP connections between Windows PCs rely on a trust-on-first-use (TOFU) model, where the client software displays a warning [1] before sending credentials to a server whose certificate is not pinned to the registry [2].
+
+(This is somewhat similar to SSH with password, although the auto-generated self-signed RDP server certificates are only valid for 6 months for some reason, so users eventually learn to just ignore these warnings.)
+
+Microsoft's RDP client for iOS used to work like the Windows client in this respect [3], but over the last few years I have noticed that while the Windows client kept periodically prompting me to acknowledge new self-signed certificates, the iOS client stopped doing so.
+
+Recently, I manually generated self-signed 10-year certificates for my personal laptops in an attempt to fix the TOFU model. Sure enough, while the Windows client warned me about these unfamiliar certificates, the iOS client just kept connecting. Neither reinstalling the app nor using a FQDN to connect had any effect.
+
+I tried contacting MSRC [4], but they just responded with boilerplate (""closed as a non-MSRC case"" etc.). Could someone who works for MS tell if the app's silence on iOS is a bug or a feature? (And if it's a feature, why can't it be turned off?)
+
+[1] https://i.sstatic.net/pu5YX.png
+
+[2] HKCU\SOFTWARE\Microsoft\Terminal Server Client\Servers\...\CertHash
+
+[2] https://nextpointhost.com/images/knowledgebase/how_to_access_forex_vps_via_rdc_using_iphone_or_ipad_6.PNG
+
+[3] https://msrc.microsoft.com/report/vulnerability/auth/",https://news.ycombinator.com/item?id=41436340
+41480034,41480034,,0,post,A53,2024-09-08T12:35:48Z,59,Ask HN: How does my school block DoH?,"My school has a bring-your-own-device wifi which obviously necessitates blocking of certain categories of websites. Previously I used to be able to bypass their DNS blocking using DoH, but now this does not work anymore. Instead, trying to access a blocked website gets me a wrong/unsafe certificate warning followed by a Fortinet/Fortiguard blockpage when I click continue. Upon inspection I can see that the certificate is issued by Fortinet, which explains the warning. On non-blocked websites I do not get a warning and the certificate appears correct.
+
+How does this work? Is this some kind of MITM-Attack on me (I do not remember having had to install any special certificates, but I do not know how to check this)? Is there a convenient way to bypass this (i. e. not Tor et al.)?
+
+I respect the IT companys efforts to secure the schools network (The IT company is universally hated by the entire school - They block the sites the teachers want to use, the youtube videos sometimes used for lessons, make the schools computers slow through McAfee and other bloat and prevent us learning about computer networks in class by blocking school-pc-to-school-pc connections in the firewall. Oh, and they also recently took in all the school issued I-Pads for an update only to delete all personal files on them; fortunately I do not use these out of principle, although I believe everyone managed to recover from cloud backups), but I would like to understand what they are doing to the network.
+Furthermore I am concerned about the legality of what they are doing (German law) and if they are able to read my private data that flows through the network (the network is personal login only, which would make that even worse).
+Also I find it disconcerting that my school blocks hrw.org (i. e. human rights watch) which I believe sends a wrong message.
+
+If there is any testing I can/need to do for further analysis I would appreciate you telling me.
+Thank you! This is actually my first post here on HN as a long time lurker.",https://news.ycombinator.com/item?id=41480034
+41480034,41481910,41480034,1,comment,A54,2024-09-08T17:57:47Z,0,Ask HN: How does my school block DoH?,"If you are getting a certificate warning then the dns lookup is succeeding but the (tcp) packets are under inspection (decrypted by the firewall and then re-encrypted). DoH only encrypts the DNS name resolution, which is only one method used by orgs to inspect traffic.
+
+To solve this you need a VPN so that the packets are encrypted by something in addition to TLS",https://news.ycombinator.com/item?id=41481910
+41480034,41481968,41480034,1,comment,A55,2024-09-08T18:06:15Z,0,Ask HN: How does my school block DoH?,"It's possible that they're now telling the firewall to block sites based on SNI or IP address, which is separate from the DNS mechanism.
+
+If you know the correct IP address for a site, you can use curl or openssl to connect to the blocked site by IP address (but still sending SNI), like
+
+ openssl s_client -connect 93.184.215.14:443 -servername example.com
+
+You can also try not sending SNI, which will remove one means that the firewall might be using to block your connection, but will also likely make the connection not work for server-side reasons if it's hosted on a shared server or CDN.
+
+ openssl s_client -connect 93.184.215.14:443 -noservername
+
+Once you're connected, you can speak the HTTP protocol to the server manually:
+
+ GET / HTTP/1.1
+ Host: example.com
+ Connection: close
+
+and see what HTML home page content you get.
+
+The output from the openssl s_client command will also show what certificate(s) were sent to you by the other end, and you can look at them using the openssl x509 command for more details about their contents. But you can see very quickly whether the purported issuer is Fortinet or a public certificate authority.
+
+The curl version looks like
+
+ curl -v --resolve example.com:443:93.184.215.14 https://example.com/
+
+There you're telling it what IP address to use (rather than querying DNS for it).
+
+> Is this some kind of MITM-Attack on me (I do not remember having had to install any special certificates, but I do not know how to check this)?
+
+If the MITM attack were successful, you would not get a certificate error. The certificate error is the intended result of a failed attack, because it shows that you did not get a secure connection to the site you were trying to reach.
+
+> Is there a convenient way to bypass this (i. e. not Tor et al.)?
+
+If you have an account on a Unix server elsewhere, you can use ssh -D to create a local SOCKS proxy that forwards web requests through the remote server (assuming that the network doesn't also prevent you from making SSH connections to the server!).",https://news.ycombinator.com/item?id=41481968
+41480034,41482009,41480034,1,comment,A56,2024-09-08T18:12:28Z,0,Ask HN: How does my school block DoH?,"They are very likely keeping track of blocked domains'/DoH servers' IP addresses and have a routing rule that routes packets to those websites to somewhere else, very likely something like ""this site is blocked"" kind of informational webpage on their servers, but since this is HTTPS the certificates don't match (since the IP department doesn't have the private key of the actual website's certificate) so you get a certificate warning.
+
+I wouldn't accept that certificate, and if you have already done so, I'd remove it immediately from my device's certificate store.",https://news.ycombinator.com/item?id=41482009
+41480034,41482145,41480034,1,comment,A57,2024-09-08T18:33:19Z,0,Ask HN: How does my school block DoH?,"Wrong / unsafe cert warning means you haven't installed their certs. They're trying to mitm you, but your browser is protecting you.
+
+It's almost certainly SNI, it's the plaintext hostname. Servers rely on it being present to route, so the only way around it is to tunnel through the firewall with a vpn",https://news.ycombinator.com/item?id=41482145
+41480034,41482312,41480034,1,comment,A58,2024-09-08T18:57:47Z,0,Ask HN: How does my school block DoH?,"TLS (websites) on your personal device is not being MITM by the Fortigate. TLS on your school's devices are.
+
+The page you're not seeing with the certificate error is just the ""This site is blocked by FortiGuard"" page. You're not seeing it because you don't have their cert installed in your device (which is good, don't install it). If you visit a blocked site on a school device, you'll see the page.
+
+Sorry, I don't know how the Forti's block DoH.
+
+To everyone recommending VPNs, SSH, etc: the Fortigate does application control and is going to catch like 99% of those shenanigans.
+
+Side note: Bypassing the network guardrails setup by a school or workplace is usually against their usage agreement. Even if you're not bypassing for nefarious reasons, it's probably not worth the potential consequences of getting caught.",https://news.ycombinator.com/item?id=41482312
+41480034,41482609,41480034,1,comment,A59,2024-09-08T19:41:23Z,0,Ask HN: How does my school block DoH?,"> Instead, trying to access a blocked website gets me a wrong/unsafe certificate warning followed by a Fortinet/Fortiguard blockpage when I click continue.
+
+This is likely the Fortigate SSL/TLS deep inspection (<https://docs.fortinet.com/document/fortigate/7.6.0/best-prac...>). In short: The Fortigate conducts an organizationally sanctioned MITM attack on your web browsing. You would not get any warning if the public key of the certification authority on the Fortigate had been installed on your client. In corporate Windows environments this is usually done via group policies.
+
+Some websites may appear not to be subjected to deep inspection if those websites were exempt from SSL/TLS deep inspection. They'd be using SNI or the CN / SAN contents of the certificate presented by the website to make a policy decision against an allow or deny list of sites.
+
+Another possible scenario would be that you have the MITM CA installed but the block page your browser gets redirected to by the Fortigate was signed by another CA / self signed. But that would certainly be a misconfiguration on the Fortigate.
+
+Anyway. Your web browser allows you to inspect the certificate and more crucially the certificate chain used to verify the validity of a certificate. Look at the root certificate when you suspect a connection to be inspected. If the name of the root CA isn't already giving it away, you should be able to verify that it is a benign public CA by googling for it.
+
+Given the rest of your experience, I'm guessing the IT staff wants to increase control over what applications and sites can be used over the school network. It is rather easy to detect and block DoH and other possible filter evasions when you can decrypt all communication.
+
+> Also I find it disconcerting that my school blocks hrw.org (i. e. human rights watch) which I believe sends a wrong message.
+
+You can check how a site is categorized by the Fortigate here: https://www.fortiguard.com/webfilter
+
+Currently https://www.hrw.org/ is categorized as ""Advocacy Organizations"" in the group ""Adult / Mature Content"". I'm going to guess the whole ""Adult / Mature Content"" group has been blocked and you found a striking example of over blocking.
+
+Now... what can you do about it? The easiest and least troublesome solution would be to just ignore the nosy IT infrastructure and use the school computers and their network just for the work assigned to you. I'm guessing you have unfiltered access to the Internet off campus anyway. Or you could tether you device to your mobile phone and bypass all filtering that way.
+
+Subverting the school's attempts to limit your access is certainly a possibility given sufficient tenacity to learn and a certain kind of creativity with a tendency to cause mischief. But I'll leave it to you to figure out the details. When your actions get you into trouble: You have asked for it. Act accordingly.",https://news.ycombinator.com/item?id=41482609
+41480034,41484469,41480034,1,comment,A24,2024-09-09T00:31:51Z,0,Ask HN: How does my school block DoH?,"Commenters seem to be convinced the school is filtering on SNI. That could be true. Based on past replies I have received, some HN commenters also believe that the entire web requires SNI. This is not true.
+
+For example, the website hrw.org cited by the OP does not require SNI. The following request succeeds:
+
+ printf 'GET / HTTP/1.1\r\nHost: www.hrw.org\r\nConnection: close\r\n\r\n' \
+ |openssl s_client -connect 23.185.0.2:443 -ign_eof -noservername
+
+Unfortunately so-called ""modern"" browsers disregard this fact and the implications of SNI on web users. They send SNI to every website, irrespective of whether it is required or not. One CDN may offer ECH to encrypt SNI if TLS1.3 is used and the client supports ECH. But one CDN is not the entire web. Needless to say, hrw.org is not using this CDN.
+
+Personally I use clients that do not send SNI by default and localhost-bound forward proxies that allow me to enable or disable sending SNI for any given website.
+
+Interesting that a student would be familiar with ""MITM"" and ""DoH"" but oblivious to SNI. SNI predates and defeats any alleged ""DNS privacy"" of DoH. No MITM needed.
+
+Another test would be to run a local DoH proxy, e.g., AdGuard's ""dnsproxy"". This way one can avoid the remote certificate check that the so-called ""modern"" browser is probably trying to perform periodically when using DoH. The computer owner can serve their own self-signed certificate.",https://news.ycombinator.com/item?id=41484469
+41631175,41631175,,0,post,A67,2024-09-23T22:17:45Z,3,Combatting Alert Fatigue by Prioritizing Malicious Intent,,https://news.ycombinator.com/item?id=41631175
+42191770,42191770,,0,post,A91,2024-11-20T08:17:11Z,1,Understanding the Efficacy of Phishing Training in Practice,,https://news.ycombinator.com/item?id=42191770
+42652088,42652088,,0,post,A48,2025-01-10T03:14:46Z,1,Show HN: I made a text expander to reduce repetitive typing,"I recently developed a browser extension called RushType, designed to reduce the hassle of repetitive typing and quickly paste text templates. The idea came from my experience recruiting testers for my paid app on Reddit. At the time, I had to manually adjust message content and attach a promo code for every message—so many repetitive actions. I thought, wouldn't it be great to automate this with a simple shortcut? That’s how RushType was born.
+
+Key Features of RushType:
+Customizable text templates and shortcuts: Compatible with almost all text input fields on websites.
+Quick date and time insertion: No more manual input for timestamps.
+Google Sheets integration: Fetch and paste content directly from a spreadsheet—perfect for handling large volumes of automated messages.
+If you frequently post messages online (like job listings, customer replies, or ad copy), this tool can save you a lot of time and effort.
+
+Note: Now is in the process of applying for OAuth verification, so you may see a security warning during login. This is temporary, and we are actively working on resolving it.
+
+This tool is newly launched, and I’d love for you to try it out and share your feedback—it would mean a lot to me!
+
+demo video: https://youtu.be/I9d3XUmlywY
+Extension store: https://chromewebstore.google.com/detail/rushtype/mdiaogojdg...",https://news.ycombinator.com/item?id=42652088
+43285671,43285671,,0,post,A6,2025-03-06T22:28:01Z,173,How to distrust a CA without any certificate errors,,https://news.ycombinator.com/item?id=43285671
+43285671,43291222,43289695,2,comment,A7,2025-03-07T15:58:42Z,0,How to distrust a CA without any certificate errors,"The Tor service model is equivalent to if every site used a self-signed certificate, which doesn't scale.
+
+The more feasible CA-free architecture is to have the browser operator perform domain validation and counter-sign every sites key, but that has other downsides and is arguably even less distributed.",https://news.ycombinator.com/item?id=43291222
+43928374,43928374,,0,post,A66,2025-05-08T17:05:48Z,2,We built an AI-powered voice tool to boost sales,"Sales teams often struggle with limited visibility into their calls, reviewing only 5-10% manually, which leads to missed opportunities. We built an AI-powered voice analytics tool that transcribes, indexes, and analyzes 100% of calls, turning them into actionable insights. In one case, this helped a SaaS client grow sales by 120% in 12 months.
+
+What the tool does
+
+We aimed to provide non-intrusive, automated QA at scale. So the key features include:
+ - 100% call transcription: using ASR for accurate, fast transcriptions.
+ - Searchable database: indexed transcripts for easy keyword and phrase tracking.
+ - Customizable reports: automated manager reports, grouped by agent or team.
+ - CRM integration: syncs data to tools like Salesforce and Zoho.
+
+Limitations: currently lacks real-time alerts, sentiment analysis, and emotion scoring (planned for future updates).
+
+Architecture overview
+ - Audio capture: integrated VoIP or manual uploads.
+ - ASR pipeline: transcribes calls via cloud-based speech-to-text.
+ - Transcript indexing: elasticSearch stores and retrieves data efficiently.
+ - Keyword matching: flags important terms like pricing or CTAs.
+ - Reports: automated generation of weekly summaries.
+
+Real-world impact. One SaaS client improved
+ - 120% sales growth over 12 months.
+ - 35% increase in close rate by identifying high-performing patterns.
+ - 5-day reduction in sales cycle due to consistent messaging.
+ - Churn dropped from 15% to 6% through better objection handling.
+
+This was achieved without expanding the team — simply by leveraging the power of data.
+
+Challenges & lessons learned
+ - Keyword rules: over-flagging terms led to alert fatigue, so we customized per-client keyword sets.
+ - ASR model issues: addressed by adding pre-filtering for noisy inputs and fallback models.
+ - CRM integration: built middleware to adapt to varying CRM structures across clients.
+ - Manager overload: simplified reports to highlight top deviations, avoiding information overload.
+
+Next steps: what's coming
+
+- Trend detection: analyzing keyword frequency over time.
+ - Conversation templates: auto-tagging calls (intro, demo, pricing).
+ - Call quality scoring: identifying poor audio or incomplete conversations.
+
+Key takeaways
+ - Focus on basics: transcription + search + simple flags bring massive value.
+ - Human-in-the-loop: insights are most useful when actionable in real-time.
+ - Scalability = simplicity: focused, simple solutions deliver better results.
+ - Data ≠ insight: reports need to be curated and actionable for managers.
+
+Conclusion
+AI is a powerful tool for sales teams, but success comes from turning raw data into actionable insights. By building scalable systems and avoiding complexity, we were able to achieve real business growth — and this approach is adaptable across industries.",https://news.ycombinator.com/item?id=43928374
+43959656,43959656,,0,post,A24,2025-05-12T04:28:27Z,9,In defense of self-signed certificates (2013),,https://news.ycombinator.com/item?id=43959656
+44031404,44031404,,0,post,A4,2025-05-19T16:16:17Z,2,Show HN: I built ServBay – An integrated local dev env for Mac (Windows coming),"Hey HN,
+
+I built a dev env called ServBay. Like many of you, I've spent countless hours wrestling with local development setups. Juggling different project requirements, language versions, SSL certs, database conflicts, and just keeping everything consistent across projects often felt like a constant, frustrating battle. I wanted something more streamlined and integrated.
+
+We all know the drill: one project needs PHP 7.4, another PHP 8.2. Then there's that legacy Python 2.7 app alongside a new Python 3.10 service. Node.js versions seem to change daily. Managing databases, getting HTTPS to work locally without browser warnings, and testing email notifications without cluttering an actual inbox... it all adds up to a lot of friction.
+
+That's why I decided to build ServBay – an attempt to simplify and streamline this entire process on macOS. My goal was to create a tool that gets out of your way and lets you focus on coding.
+
+Here are some of ServBay's core features I think you might find useful:
+
+- One-click Version Switching (Seriously!):
+ - PHP: Switch between 5.6 all the way up to 8.5 (and beyond as new versions release).
+ - Node.js: Easily manage versions from 12 to 23.
+ - Python: Support for legacy Python 2.7 projects, as well as modern 3.5 up to 3.24.
+ - Java: OpenJDK 7 through 24, with built-in Maven for smoother Java project management.
+ - Go, .Net (including ASP.NET 4.x), Ruby, Rust: We're aiming to support a broad range of languages you might need.
+ - Databases: Not just the languages, but also your databases! Switchable versions for MySQL, MariaDB, PostgreSQL, and MongoDB. Spin up the right database version for your project without conflicts.
+
+- Hassle-Free SSL & Custom Domains:
+ - Getting HTTPS working locally can be a real pain. ServBay includes built-in SSL certificate management (PKI based) so you can develop with https:// effortlessly for all your local projects, without those annoying browser warnings.
+ - Easily map custom domains (e.g., my-project.local instead of localhost:8080/my-project) for a cleaner and more production-like setup.
+
+- Integrated Mail Testing:
+ - ServBay comes with Mailpit integrated out of the box. Test email sending functionality from your local applications without spamming actual inboxes. All emails sent by your local apps are captured and viewable, making debugging a breeze.
+
+- Comprehensive Backup & Restore:
+ - We've all been there – a bad config change, a corrupted database. ServBay offers peace of mind with comprehensive manual and automatic backups. This includes your website files, databases, SSL certificates, and even ServBay's own configuration.
+
+Platform & Future:
+
+Currently, ServBay is available for macOS.
+We know a huge number of developers are on Windows, and I'm happy to say that a Windows version is under active development! If you're a Windows user interested in a better local dev experience, please join our waitlist here: https://www.servbay.com/join-windows-waiting-list
+
+Feedback:
+I'd be incredibly grateful if you'd give ServBay a try. You can download it and learn more here:
+https://www.servbay.com
+
+This is very much an early release, and your honest feedback is crucial for its development. What do you like? What's missing? What's broken or clunky? Are there any features you'd love to see? Any suggestions, criticisms, or bug reports are incredibly welcome!
+
+Please leave your thoughts and feedback in the comments below. I'll be here to answer any questions.
+
+Thanks so much for your time and for checking out ServBay. I'm really excited (and a bit nervous!) to hear what you think.",https://news.ycombinator.com/item?id=44031404
+44135480,44135480,,0,post,A4,2025-05-30T12:23:13Z,3,Show HN: ServBay – Create Perfect macOS Development Environment with One Click,"Hey HN,
+Like many of you, I've spent countless hours wrestling with local development setups on macOS. Juggling different PHP or Node.js versions for various projects, manually generating SSL certs (and still getting browser warnings!), or figuring out how to reliably test email sends locally – it all felt like too much friction.
+That's why I built ServBay. It's my solution to streamline this whole process.
+ServBay is a native macOS application with a GUI designed to bundle and manage all the essential services you need for local web development. This includes web servers (Nginx, Caddy, Apache), databases (MySQL, PostgreSQL, MariaDB, MongoDB), languages (PHP, Python, Java, .NET, Node.js, Ruby, Rust), LLM (Ollama), and other handy tools like Redis and Memcached, all in one place.
+Here's how ServBay aims to make your life easier:
+- One-Click Simplicity: Spin up and manage multiple services and their versions (e.g., PHP 5.6 through 8.3+, Node.js LTS versions, Python2.7/3.5 - 3.14) with just a few clicks. No more complex command-line juggling for common tasks.
+- Automatic SSL: Get automatic SSL certificates for your local domains (e.g., project.dev, app.local, or even your real domain mapped locally). Say goodbye to manual mkcert rituals and browser security warnings.
+- Integrated Mailpit: Test email functionality effortlessly. ServBay includes Mailpit, which captures all outgoing mail locally for easy inspection and debugging, no external SMTP needed.
+- Flexible Domain Management: Easily set up custom local domains for your projects. ServBay handles the host file modifications for you.
+- True Multi-Version Support: Run different versions of PHP or Node.js side-by-side and assign specific versions to individual sites/projects .
+- One-Click Backup & Restore: Quickly back up your crucial configurations and databases, and restore them just as easily.
+- Comprehensive Service Stack: Includes Nginx (Apache support planned), PHP (many versions), Node.js, MySQL, MariaDB, PostgreSQL, Redis, Memcached, and we're always looking to add more based on demand.
+ServBay aims to be simpler than manually configuring everything with Homebrew or managing complex Docker setups for common web development stacks on macOS, while being significantly more feature-rich, flexible, and macOS-native than traditional MAMP/XAMPP.
+You can check it out and download it from: 
+https://www.servbay.com
+https://github.com/ServBay/ServBay
+ServBay is a commercial product, but there's a free trial available so you can see if it fits your workflow.
+I've poured a lot of effort into making ServBay genuinely useful, and I'd be thrilled to hear your thoughts, feedback, and any feature requests. How does this compare to your current macOS dev setup? What are your biggest pain points that something like ServBay could solve?
+Thanks for checking it out!",https://news.ycombinator.com/item?id=44135480
+44168306,44168306,,0,post,A3,2025-06-03T10:11:54Z,1,OpenDNS systematically blocking legitimate businesses with broken appeal process,"I'm reaching out because OpenDNS has severely damaged my startup through what appears to be systematic abuse of their DNS filtering position, and I believe this affects many other small businesses who lack the resources to fight back.
+
+The core issue: OpenDNS flagged our legitimate URL shortening domain as ""phishing"" during our first major marketing campaign, causing immediate traffic collapse and wasted ad spend. When we tried their official appeal process, the form returned ""invalid origin"" errors - making it impossible to dispute false positives.
+
+Why this matters beyond my case:
+ - They're serving wrong SSL certificates, triggering browser security warnings
+ - Their broken appeal system suggests they don't want to fix false positives
+ - Small businesses can't afford individual legal action against Cisco-owned OpenDNS
+ - Users trust OpenDNS as ""security"" but don't realize it's actively censoring legitimate sites
+
+I'm organizing affected businesses for potential legal action, but public attention could pressure them to fix their systems faster than courts. Other victims are afraid to speak publicly - understandably, since OpenDNS could retaliate with more blocking.
+
+Would any of you be interested in investigating this story? I can provide full documentation and connect you with other affected businesses.
+
+Best regards,
+Roberto Capodieci
+
+P.S. For those of you that are interested, I have put together a short recap at rcx. it / opendns",https://news.ycombinator.com/item?id=44168306
+44325276,44325276,,0,post,A65,2025-06-20T06:41:13Z,3,Rise in alert fatigue risks phone users disabling news notifications study finds,,https://news.ycombinator.com/item?id=44325276
+44328373,44328373,,0,post,A64,2025-06-20T15:02:07Z,20,Rise in 'alert fatigue' risks phone users disabling news notifications,,https://news.ycombinator.com/item?id=44328373
+44542185,44542185,,0,post,A91,2025-07-12T14:09:14Z,3,Study Suggests Limited Efficacy of Phishing Training in Practice,,https://news.ycombinator.com/item?id=44542185
+44570436,44570436,,0,post,A63,2025-07-15T12:27:14Z,11,Show HN: RobinRelay – Slack-native memory layer for noisy alerts,"Hi amazing community,
+
+I’m Ali a solo founder and ex-SRE. After working at Dynatrace and Gartner, I left my job to build RobinRelay, a Slack-native assistant for noisy alerts and incident memory.
+
+The Problem:
+SRE and DevOps teams get flooded with alerts in Slack. People investigate in threads or the main alert channel… and then the context disappears.
+
+So when the same alert happens again (next week, another team, different cluster), everyone starts from scratch.
+
+What I’ve Built:
+RobinRelay watches your alert channels and automatically replies when a recurring alert is detected. It brings back:
+
+Past thread replies:
+Root cause + fix summaries
+Cross-channel memory (Team A solves it, Team B sees it next time)
+We’ve also added Slack-native dashboards like:
+
+- Alert heatmaps to show noisy days
+- Insights directly inside the Slack App Home tab — no need to leave Slack
+
+RobinRelay runs in one company across 3 live Datadog alert channels and delivers context in under a minute.
+
+About Integrations:
+No rigid setups.
+RobinRelay listens directly to Slack channels and automatically parses any alert format using LLMs, including custom bots.
+That means unlimited integration possibilities without any API keys, webhook configs, or vendor lock-in.
+
+Seamless Setup:
+Install the app
+Choose the alert channel
+RobinRelay starts reading historical alerts + discussions to surface useful memory and insights — no manual migration needed.
+Demo (1:40)
+YouTube: https://www.youtube.com/watch?v=RSY7-AZJqU8
+
+Or join the public demo workspace to see it live: https://join.slack.com/t/robinrelay/shared_invite/zt-39kf33n...
+
+Looking For
+Feedback from teams who:
+
+Handle alerts in Slack
+Run on-call rotations
+Care about reducing alert fatigue and rework
+I’m happy to answer questions or ship improvements based on feedback!",https://news.ycombinator.com/item?id=44570436
+44930204,44930204,,0,post,A90,2025-08-17T09:33:17Z,4,"Phishing training is pretty pointless, researchers find",,https://news.ycombinator.com/item?id=44930204
+44932137,44932137,,0,post,A88,2025-08-17T15:06:38Z,5,Understanding the Efficacy of Phishing Training in Practice [pdf],,https://news.ycombinator.com/item?id=44932137
+44932137,44932434,44932137,1,comment,A89,2025-08-17T15:46:34Z,0,Understanding the Efficacy of Phishing Training in Practice [pdf],"Our results suggest that these efforts offer limited value.
+
+First, we find no significant relationship between whether users have recently completed cybersecurity awareness training and their likelihood of failing a phishing simulation.
+
+Second, when evaluating recipients of embedded phishing training, we find that the absolute difference in failure rates between trained and untrained users is extremely low across a variety of training content.
+
+Third, we observe that most users spend minimal time interacting with embedded phishing training material in-the-wild; and that for specific types of training content, users who receive and complete more instances of the training can have an increased likelihood of failing subsequent phishing simulations.
+
+Taken together, our results suggest that anti-phishing training programs, in their current and commonly deployed forms, are unlikely to offer significant practical value in reducing phishing risks.
+
+I've long been of the view that most of the ""phishing training"" that gets sold to companies is largely snake oil with very little benefit, and is essentially a compliance-driven waste of money. It's nice to see a study supporting this view.",https://news.ycombinator.com/item?id=44932434
+44941132,44941132,,0,post,A86,2025-08-18T14:37:28Z,3,"Phishing training is pretty pointless, researchers find",,https://news.ycombinator.com/item?id=44941132
+44941132,44941422,44941132,1,comment,A87,2025-08-18T15:04:34Z,0,"Phishing training is pretty pointless, researchers find","The phishing training in my workplace is so odious, and the consequences for failing a test are high enough, that it's led to everyone just ignoring all unexpected communications. Better to ignore it all than to risk making a mistake. Even emails from known coworkers (the phish test often spoofs as your coworkers) tend to be ignored until the coworker confirms they sent it.
+
+This is great for security (the most secure communication is communication that doesn't happen), but now the suits are wondering why it is that nobody is reading or responding to company emails anymore.",https://news.ycombinator.com/item?id=44941422
+44950133,44950133,,0,post,A85,2025-08-19T10:41:24Z,1,Pwning Phishing Training Through Scientific Lure Crafting [pdf],,https://news.ycombinator.com/item?id=44950133
+45218483,45218483,,0,post,A62,2025-09-12T03:45:29Z,5,Show HN: Root Managed Services,"Hi HN!!! I am localhost, lol, and I am launching RootManagedServices, a managed service provider focused on small and mid-sized organizations. After years of watching MSP relationships stall over opaque pricing, alert fatigue, and weak security baselines, we’re trying to do it differently: automation-first operations, measurable outcomes, and real transparency.
+
+What’s different about our approach
+
+Automation by default. We standardize device/identity baselines and recurring tasks with policy + scripts, aiming to cut busywork tickets and MTTR. Wherever sensible we use reproducible configs and self-healing checks rather than one-off fixes.
+
+Security as table stakes. Enforced MFA, least privilege, rapid patch SLAs, phishing simulations with coaching, and a documented incident runbook from day one (not “phase 3”).
+
+Observable operations. Clients get a simple monthly scorecard: patch compliance %, mean time to resolution, backup/restore test results, phishing failure rate, and “preventable ticket” trend lines.
+
+Transparency over lock-in. Clear SLOs, shared runbooks/playbooks, and clean data export. If we’re not a fit later, you shouldn’t be stuck.
+
+Simple pricing. Straightforward per-user/per-device plans with published inclusions. No surprise “consulting blocks” for routine care.
+
+Where we are now
+
+Working with early customers and refining our onboarding playbooks (identity, endpoint, backup, email security, and network).
+
+Building on a vendor-agnostic stack; we favor open standards and, where it makes sense, open-source components for monitoring/telemetry and remote support.
+
+Publishing select runbooks so clients (and other MSPs) can see how we work.
+
+What I’d love feedback on from HN
+
+If you run or buy from an MSP: what are your biggest pain points today?
+
+Which metrics would you actually care to see each month?
+
+Any strong opinions on stack choices to avoid or must-haves for a modern MSP?
+
+Would open-sourcing more of our playbooks be genuinely useful, or just noise?
+
+If this resonates (or if you think it’s misguided!), I’d appreciate your comments. I’m especially looking to talk with SMB founders/IT leads, other MSP operators, and security folks who’ve lived the day-to-day.
+
+Thanks!!",https://news.ycombinator.com/item?id=45218483
+45338887,45338887,,0,post,A23,2025-09-22T20:15:33Z,3,"Self-Signed Certificate: Certified by Code, Not Corporations",,https://news.ycombinator.com/item?id=45338887
+45529577,45530884,45529577,1,comment,A82,2025-10-09T17:52:13Z,0,Cybersecurity training programs don't prevent phishing scams,"> After sending 10 different types of phishing emails over the course of eight months, the researchers found that embedded phishing training only reduced the likelihood of clicking on a phishing link by 2%.
+
+Company: Stop clicking on links to third party sites.
+
+Also Company: All of IT, HR, benefits, cloud storage, customer management, and employee portal is moving to its own third party platform!",https://news.ycombinator.com/item?id=45530884
+45529577,45531744,45529577,1,comment,A83,2025-10-09T19:06:06Z,0,Cybersecurity training programs don't prevent phishing scams,"I looked at the paper. How it's being reported is highly misleading. There were 4 different active training groups. One of the groups benefitted from the training and one of the groups actually got worse. So as a whole phishing training only has a 2% boost. However the message is not that phishing training is useless, only that if applied incorrectly it is useless.",https://news.ycombinator.com/item?id=45531744
+45529577,45534755,45529577,1,comment,A84,2025-10-10T01:51:19Z,0,Cybersecurity training programs don't prevent phishing scams,"My university routinely sends notifications about required annual phishing training that violate almost every point in the training about how to avoid getting phished. Its been happening for years. Urgency. Appeals to authority. Grammatical errors. Mystery click-me links that go outside the domain to training service providers that we do not use in any other context. References to alternative ways to get to the training that don't work.
+
+I've reported it multiple times over the last few years but our IT security team blows off the concern, insists that I follow the link, and changes nothing. And no, it isn't just them testing people to see if they will fall for it. I am also in a position to see the tracking reports and be in meetings where expectations are discussed.
+
+Our program is explicitly training people to get phished.",https://news.ycombinator.com/item?id=45534755
+45684298,45684298,,0,post,A61,2025-10-23T17:11:32Z,1,Show HN: smartNOC – network in a box for zero-ops,"I’ve been building an infrastructure platform called smartNOC, aimed at managing server environments cohesively and comprehensively, and I have finally achieved a version 1.0 release. I hope you guys think this is as cool as I think it is.
+
+When ChatGPT was released on November 30, 2022, the realization hit me that somebody is going to start using these tools for evil, and knowing how we typically manage our networks didn't bring much comfort. I thought we would need a complete re-envisioning of how we architect our edge networks. So I started building it. I went full time on the project in March 2023, and began writing code May of '24.
+
+What I have built is a ""network in a box"" that provides the following:
+1. Fully hardened linux instances.
+2. 100% auditable lifecycle operations across fleet.
+3. One-touch provisioning. 
+4. An entirely new monitoring method to permit real time notification of issues.
+5. Scoped to be a zero-ops, self-managed environment. 
+6. AwarenessUI, my answer to dashboard sprawl and alert fatigue.
+
+Every instance starts from a trusted base image, provisioned with our custom security-guard software: fred - the first-responding enterprise daemon.
+
+I think can be great for managing cloud repatriation migrations, government contractors and it might be a good cloud offering.
+
+I have posted a brief video to YouTube here: https://youtu.be/cFqHfP-PPvo
+
+I'd love to hear your thoughts on my project.",https://news.ycombinator.com/item?id=45684298
+46776065,46776065,,0,post,A2,2026-01-27T06:00:43Z,3,"A Lightweight, Non-Intrusive Approach to Website Monitoring (Ops Perspective)","I’m a Linux ops engineer working in the DevOps/SRE space. and over the past few months, I’ve been working on a small *website monitoring* side project in my spare time:
+ https://inostop.com/en/
+
+Most of the monitoring and ops tools I’ve built before were used internally within companies. This is my first attempt to turn a relatively complete tool into something publicly usable.
+
+In day-to-day operations, website monitoring usually involves:
+
+- Infrastructure monitoring
+- Application / API monitoring
+- Partial CDN monitoring
+
+These are often built on top of tools like Prometheus or Zabbix, combined with log systems (ELK / OpenObserve) and distributed tracing (OpenTelemetry).
+ While powerful, this stack can feel *heavyweight and overkill* when you just want to quickly monitor a website’s availability.
+
+That led me to experiment with a simpler approach:
+
+- Non-intrusive (no code changes required/Sidecar)
+- Out-of-band probing to estimate website availability
+- Conservative thresholds to reduce false alarms
+
+So far, the project covers:
+
+- Domain and TLS certificate monitoring, Ping, Telnet checks
+- Basic alert thresholds and multi-stage alert silencing to reduce alert fatigue
+
+There are still open challenges:
+
+- There’s still room to improve the UX of the Website Monitoring results (backend is written in Go).
+
+- AI currently works only as an analysis layer on collected data, rather than actively performing real network probes
+
+This project is still evolving (I’ve rewritten parts of it more times than I’d like to admit ).
+
+If you’d like to try it out, there’s an early access code *95f40841e4888668c4d5f7e88506075d*, valid for 1 months, mainly for collecting early feedback.
+
+I’d love to hear feedback from the community:
+
+- Does a lightweight, non-intrusive website monitoring approach make sense in practice?
+- Are there better patterns or architectures worth exploring?
+- If you’re a QA or test engineer, I’d love to hear your thoughts.",https://news.ycombinator.com/item?id=46776065
+46895010,46895010,,0,post,A1,2026-02-05T02:46:09Z,1,"Show HN: I built an all-in-one API client, DB client and Data inspector","Switching between Postman and Dbeaver, then any random JSON viewer, PDF parser online is boring and frustrating - especially when you have to test the same case again and again.
+
+So I built an all-in-one API client, DB client, and Data Inspector.
+
+What you can do with it:
+
+1. Data inspector tool
+
+It all started as a simple web tool for running multiple JSON queries. When I work with REST APIs, I get tired of testing the same endpoint and searching for the same set of fields over and over with Ctrl+F.
+
+Main features:
+- Support JSON, XML, or base64 encoded JSON
+- Search by key, value
+- Format/minify
+- Multiple JSONPath query
+- Data preview (Image, PDF, Table)
+
+2. API Client
+
+Copying API responses into the Data Inspector manually was still a pain, so I added a built-in API client and integrated the Data Inspector right into it.
+
+Now you can inspect responses instantly without switching tools.
+
+3. DB client
+
+Copying data (usually otpCode or some kind of secret you can't get from REST APIs) from a DB tool to the API client is boring.
+Same thing when you need to copy an object ID from an API response and query it in the database.
+
+So I added a simple DB client. Nothing fancy - just a schema explorer and SQL query support.
+
+4. Shared variables
+
+All parts of the app - API client, DB client, and Data Inspector - can extract and reuse shared variables, just like Postman.
+
+---
+
+So yeah, what started as a small JSON tool slowly grew into a full dev tool.
+The goal is simple - make daily dev tasks less annoying.
+
+Small note on downloads: the app is still early and doesn't have many users yet, so you might see a security warning during download.
+The Windows version is signed with my personal Individual Certificate, so you'll see ""Lac Tran An"" as the publisher.
+
+It comes with a 14-day free trial (no credit card needed), and there's an early bird $40 lifetime license.
+
+I'd really appreciate any feedback - especially what feels useful or annoying.
+Hope it helps with your daily workflow.
+
+Thanks for reading.",https://news.ycombinator.com/item?id=46895010
+47104284,47104284,,0,post,A47,2026-02-21T20:19:51Z,3,Show HN: DevBind – I made a Rust tool for zero-config local HTTPS and DNS,"Hey HN,
+
+I got tired of messing with
+
+/etc/hosts
+ and browser SSL warnings every time I started a new project. So I wrote DevBind.
+
+It's a small reverse proxy in Rust. It basically does two things:
+
+1. Runs a tiny DNS server so anything.test just works instantly (no more manual hosts file edits).
+
+2. Sits on port 443 and auto-signs SSL certs on the fly so you get the nice green lock in Chrome/Firefox.
+It's been built mostly for Linux (it hooks into systemd-resolved), but I've added some experimental bits for Mac/Win too.
+
+Still a work in progress, but I've been using it for my own dev work and it's saved me a ton of time. Would love to know if it breaks for you or if there's a better way to handle the networking bits!",https://news.ycombinator.com/item?id=47104284
+48072345,48072345,,0,post,A5,2026-05-09T06:19:25Z,4,Show HN: I made an IPv6 proxy for GitHub,"Since everyone always complains about IPv6-only servers not being able to reach GitHub, I fixed that.
+
+You can use this simple service I made to access GitHub through IPv6, and you don't need to have IPv4 on every server or set up your own proxy server.
+
+You have the choice of using the proxy explicitly by its own address, or adding it to your hosts file to connect transparently through it. Since you're connecting to the real GitHub by a different address, there are no certificate errors.",https://news.ycombinator.com/item?id=48072345
+48117476,48117476,,0,post,A22,2026-05-13T03:35:57Z,5,"Show HN: SelfCertForge, manage root CAs and self-signed certs on macOS/Windows","Hi, HN!
+
+I recently published SelfCertForge, an open source desktop app for creating and managing self-signed certificates on macOS and Windows:
+
+https://github.com/rbonestell/SelfCertForge/
+
+I know, I know... this isn't an earth-shattering invention. This came from a place of years of personal annoyance. I’ve been maintaining scripts that wrapped OpenSSL for local certificate workflows: create a long-lived root cert, add it to the trust store, then generate and sign child certificates for local services.
+
+The scripts work but the workflow was clunky. Used infrequently enough that it's easy to forget the flags, not much easier to explain to anyone than OpenSSL itself, and irritating to repeat across machines. Every time I'd share them with colleagues and friends there were always questions and feature requests, so I used Claude Code to amplify my UI/UX design skills (well, I can't amplify 0...) and turned the functionality into a cross-platform GUI.
+
+SelfCertForge can generate root CAs and add them to the system's trust store, generate and sign child certificates, and export DER, PEM, PFX, and P7B formats. It also supports common X.509 fields like Subject, SANs, and Key Usage.
+
+Very important caveat: this is not suitable for production environments or public-facing SSL/TLS.",https://news.ycombinator.com/item?id=48117476
+48195021,48195021,,0,post,A52,2026-05-19T15:54:06Z,74,Show HN: Superlog (YC P26) – Observability that installs itself and fixes bugs,"Hey HN, we’re Nico and Arseniy, co-founders of Superlog (https://superlog.sh). We're building a self-installing, self healing observability tool meant not to be opened. It has a wizard that daily sets up proper logging and an agent that investigates errors and opens PRs.
+
+Super short demo: https://www.youtube.com/watch?v=xFhU9Mk247M.
+
+In our earlier startups, we tried Sentry, Datadog, Grafana, Dash0, and nothing was good enough. Proper telemetry and alerting still requires a ton of manual setup. We struggled with adding good logs, so debugging was tough, especially as codebases grow at a faster pace. Meanwhile, the Datadog/Dash0 bill kept climbing, and we still spent engineering hours to learn, configure, and maintain our observability tooling.
+
+With Sentry, we found ourselves flooded by a stream of alerts into our Slack channel, most were duplicates or lacked context, so alert fatigue/constant interrupts were a real pain. The #ops notification is consistently the worst feeling on a Saturday morning
+
+We’ve seen too many times servers run out of memory and disk, and three AWS metrics giving us three different values. Half of the graphs on dashboards are normally empty or outdated, and manually clicking through UIs, especially when the team is small, seems like a huge waste of time.
+
+At some point we realized that solving this problem would be more valuable than the things we had been working on, and we had the expertise to do it, since Arseniy had spent years at Datadog, getting paged during the night to debug production incidents. So we decided to build a platform that would just work: agent-first, MCP-native, zero-setup.
+
+Here’s how Superlog works: we have a wizard that scans your repo, and automatically instruments it with well-structured logs, traces and metrics via OpenTelemetry. We make sure to highlight main failure modes, endpoint performance, usage per tenant, and LLM/upstream cost (by callsite, tenant and model).
+
+Errors get fingerprinted and grouped into incidents, so you see one issue, not a thousand duplicates. When you get a notification from Superlog, you see a clear failure summary, its inferred severity and impact upfront.
+
+Then the agent investigates and tries to solve the issue. If it has enough context, it produces a concise and tested PR. If it doesn't, it posts its findings for the investigating team, and automatically pulls in the engineers that could contribute more context based on documentation, previous investigations and Slack threads.
+
+Either way the output is one clean PR per incident, posted in Slack, that you can
+merge, ignore, or open as a Claude Code session and modify.
+
+Three things we think are different from other observability vendors:
+
+(1) We solve the setup pain. The wizard will instrument everything with native OTel SDKs, respecting the semantic conventions, with proper service and environment tagging. We’re also working on native automatic dashboards and alerts, so that you can see what’s going on in a glance and don’t miss subtle failure modes.
+
+(2) Our telemetry doesn’t decay. The wizard runs daily, and keeps adding logs, alerts and dashboards where it’s needed. You don't have to remember to instrument new features. The next time something breaks, the data you need to debug it is already there.
+
+(3) Our goal is to solve alert fatigue. We use agents to merge similar errors and refine the summaries, giving you relevant information upfront. We have a custom evaluation setup that makes sure that our summaries are dense and correct, and severity and impact is on point. We also give you confidence scores for every LLM-enhanced metric so that wrong guesses don’t get boosted.
+
+Important: superlog telemetry is vendor-neutral, so you keep all the logs/metrics/traces we install. Pricing is on the site. We're early, so expect rough edges and please tell us when you find them.
+
+You can try it at https://superlog.sh. We'd love to hear what you're using today, what's broken about it, and whether the ""one mergeable PR per incident"" model sounds useful or terrifying. Especially keen to hear from folks running integration-heavy products, anyone who's rolled their own observability, and anyone who has tried Sentry / Datadog MCPs and given up. Comments and feedback welcome!",https://news.ycombinator.com/item?id=48195021
+48229313,48229313,,0,post,A81,2026-05-21T21:55:23Z,9,Shira: Anti Phishing Training Platform,,https://news.ycombinator.com/item?id=48229313
+49312529,49312529,,0,post,A46,2026-08-15T17:37:46Z,2,How to fix security warning in Firefox,,https://news.ycombinator.com/item?id=49312529
+49564895,49564895,,0,post,A60,2026-09-04T14:08:55Z,1,Ask HN: Shift-Left to Reachability-First-How are you surviving AST alert fatigue,,https://news.ycombinator.com/item?id=49564895

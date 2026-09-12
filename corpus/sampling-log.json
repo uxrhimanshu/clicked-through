@@ -1,0 +1,186 @@
+{
+  "tool": "fieldnotes",
+  "version": "0.1.0",
+  "run_at": "2026-09-12T12:55:56.234702+00:00",
+  "command": "python3 fieldnotes.py hn \"certificate warning\" \"self-signed certificate\" \"click through the warning\" \"ignore the warning\" \"ignored the warning\" \"clicked through\" \"warning fatigue\" \"alert fatigue\" \"phishing training\" \"security prompt\" \"cert error\" \"just click accept\" --since 2021-01-01 --min-length 200 --limit 40 --out corpus/",
+  "source": "hn",
+  "queries": [
+    "certificate warning",
+    "self-signed certificate",
+    "click through the warning",
+    "ignore the warning",
+    "ignored the warning",
+    "clicked through",
+    "warning fatigue",
+    "alert fatigue",
+    "phishing training",
+    "security prompt",
+    "cert error",
+    "just click accept"
+  ],
+  "parameters": {
+    "subreddit": null,
+    "since": "2021-01-01",
+    "until": null,
+    "thread_limit": 40,
+    "include_comments": true,
+    "min_length_chars": 200,
+    "min_score": null,
+    "max_depth": null,
+    "pseudonymised": true,
+    "items_must_match_a_query_term": false
+  },
+  "endpoints": [
+    "https://hn.algolia.com/api/v1/search_by_date",
+    "https://hn.algolia.com/api/v1/items/{id}"
+  ],
+  "funnel": [
+    {
+      "stage": "stories matched by 'certificate warning'",
+      "items": 32
+    },
+    {
+      "stage": "retrieved for query 'certificate warning'",
+      "items": 152
+    },
+    {
+      "stage": "stories matched by 'self-signed certificate'",
+      "items": 22
+    },
+    {
+      "stage": "retrieved for query 'self-signed certificate'",
+      "items": 154
+    },
+    {
+      "stage": "stories matched by 'click through the warning'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'click through the warning'",
+      "items": 408
+    },
+    {
+      "stage": "stories matched by 'ignore the warning'",
+      "items": 29
+    },
+    {
+      "stage": "retrieved for query 'ignore the warning'",
+      "items": 148
+    },
+    {
+      "stage": "stories matched by 'ignored the warning'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'ignored the warning'",
+      "items": 333
+    },
+    {
+      "stage": "stories matched by 'clicked through'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'clicked through'",
+      "items": 346
+    },
+    {
+      "stage": "stories matched by 'warning fatigue'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'warning fatigue'",
+      "items": 251
+    },
+    {
+      "stage": "stories matched by 'alert fatigue'",
+      "items": 36
+    },
+    {
+      "stage": "retrieved for query 'alert fatigue'",
+      "items": 242
+    },
+    {
+      "stage": "stories matched by 'phishing training'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'phishing training'",
+      "items": 370
+    },
+    {
+      "stage": "stories matched by 'security prompt'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'security prompt'",
+      "items": 344
+    },
+    {
+      "stage": "stories matched by 'cert error'",
+      "items": 14
+    },
+    {
+      "stage": "retrieved for query 'cert error'",
+      "items": 148
+    },
+    {
+      "stage": "stories matched by 'just click accept'",
+      "items": 40
+    },
+    {
+      "stage": "retrieved for query 'just click accept'",
+      "items": 262
+    },
+    {
+      "stage": "items retrieved (posts + comments)",
+      "items": 3158
+    },
+    {
+      "stage": "items included in corpus",
+      "items": 1785
+    }
+  ],
+  "exclusions": [
+    {
+      "reason": "already retrieved under an earlier query",
+      "count": 215
+    },
+    {
+      "reason": "comment shorter than 200 characters",
+      "count": 1158
+    }
+  ],
+  "result": {
+    "threads": 372,
+    "items": 1785,
+    "posts": 372,
+    "comments": 1413,
+    "observed_date_range": {
+      "earliest": "2021-01-11T08:00:32Z",
+      "latest": "2026-09-12T12:15:12Z"
+    }
+  },
+  "caveats": [
+    "Deleted and moderator-removed content is invisible to this method. A thread's most contested contributions are the most likely to be missing.",
+    "Posters are not users. The overwhelming majority of people who read a forum never post, and nothing here represents them.",
+    "Visibility is ranked, not neutral. What a search returns is shaped by the platform's own relevance and score ordering, which correlates with age and engagement rather than with representativeness.",
+    "Self-selection: people post about an experience when it is unusual, unresolved or annoying. Base rates cannot be estimated from this data.",
+    "Identity is unverified. Claimed roles, employers and seniority are claims.",
+    "Hacker News is a single community with a specific demographic — largely English-speaking, technical and US-weighted. Nothing here generalises beyond it.",
+    "The thread limit (40) was reached for 'click through the warning', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'click through the warning' returned is 2025-01-14. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'ignored the warning', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'ignored the warning' returned is 2026-01-27. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'clicked through', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'clicked through' returned is 2025-01-16. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'warning fatigue', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'warning fatigue' returned is 2024-08-11. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'phishing training', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'phishing training' returned is 2024-06-17. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'security prompt', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'security prompt' returned is 2026-07-15. The gap is a truncation artefact, not evidence that nothing was posted in between.",
+    "The thread limit (40) was reached for 'just click accept', so that query's contribution is truncated: it is the most recent 40 matching threads, not all of them. Raise --limit or narrow the query before treating this as complete coverage.",
+    "Requested items from 2021-01-01 onward, but the earliest item 'just click accept' returned is 2022-07-09. The gap is a truncation artefact, not evidence that nothing was posted in between."
+  ],
+  "errors": []
+}

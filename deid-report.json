@@ -1,0 +1,154 @@
+{
+  "items_changed": 21,
+  "replacements": 22,
+  "detail": [
+    {
+      "item": "29227530",
+      "n": 1,
+      "found": [
+        "email:team@metaplane.dev"
+      ]
+    },
+    {
+      "item": "29228221",
+      "n": 1,
+      "found": [
+        "email:guru@metaplane.dev"
+      ]
+    },
+    {
+      "item": "29230502",
+      "n": 1,
+      "found": [
+        "email:team@metaplane.dev"
+      ]
+    },
+    {
+      "item": "32643682",
+      "n": 1,
+      "found": [
+        "email:reportphishing@apple.com"
+      ]
+    },
+    {
+      "item": "40775290",
+      "n": 1,
+      "found": [
+        "email:info@postseam.com"
+      ]
+    },
+    {
+      "item": "41367750",
+      "n": 1,
+      "found": [
+        "email:matt@bucket.bot"
+      ]
+    },
+    {
+      "item": "41712089",
+      "n": 1,
+      "found": [
+        "email:madhu@resolve.ai"
+      ]
+    },
+    {
+      "item": "42701258",
+      "n": 1,
+      "found": [
+        "email:e-mail_addr@naga99g-186.com"
+      ]
+    },
+    {
+      "item": "44290513",
+      "n": 1,
+      "found": [
+        "email:Support@getAppTrack.com"
+      ]
+    },
+    {
+      "item": "44974453",
+      "n": 1,
+      "found": [
+        "email:ben@useskope.com"
+      ]
+    },
+    {
+      "item": "45026337",
+      "n": 1,
+      "found": [
+        "email:freddy@lurnix.tech"
+      ]
+    },
+    {
+      "item": "45444539",
+      "n": 2,
+      "found": [
+        "email:nima@assemblelabs.co",
+        "email:craig@assemblelabs.co"
+      ]
+    },
+    {
+      "item": "45975839",
+      "n": 1,
+      "found": [
+        "email:admin@SubscriptionMembershipSettlement.com"
+      ]
+    },
+    {
+      "item": "46367310",
+      "n": 1,
+      "found": [
+        "email:emilio@wafer.ai"
+      ]
+    },
+    {
+      "item": "46620131",
+      "n": 1,
+      "found": [
+        "email:hn@algomommy.com"
+      ]
+    },
+    {
+      "item": "46824361",
+      "n": 1,
+      "found": [
+        "email:hi@example.com"
+      ]
+    },
+    {
+      "item": "47364116",
+      "n": 1,
+      "found": [
+        "email:founders@getspine.ai"
+      ]
+    },
+    {
+      "item": "48801698",
+      "n": 1,
+      "found": [
+        "email:ariel@rogue.security"
+      ]
+    },
+    {
+      "item": "48981989",
+      "n": 1,
+      "found": [
+        "email:hn@ycombinator.com"
+      ]
+    },
+    {
+      "item": "49348136",
+      "n": 1,
+      "found": [
+        "email:barnaby@machine0.io"
+      ]
+    },
+    {
+      "item": "49425460",
+      "n": 1,
+      "found": [
+        "email:attacker@evil.com"
+      ]
+    }
+  ]
+}
