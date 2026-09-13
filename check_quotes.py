@@ -24,14 +24,25 @@ Exit status is non-zero if anything fails to verify.
 from __future__ import annotations
 
 import csv
+import os
 import re
 import sys
 import unicodedata
 
 CORPUS = "corpus/corpus.csv"
 FINDINGS = "FINDINGS.md"
+PAGE = "index.html"
 
 ATTRIBUTION = re.compile(r"^—\s*(\S+)\s*·\s*\[(\d+)\]")
+
+# On the page a quote is a .quote block: one or more <p> of quoted text, then a
+# <cite> naming the pseudonym and linking to the item. Checked with the same
+# rules as the markdown, because the page is what most readers will actually see
+# and an unverified quote there is worth no less than one in a file nobody opens.
+BLOCK = re.compile(r'<div class="quote">(.*?)</div>', re.S)
+# The pseudonym only — a cite may carry a note after it ("A902, on a daycare
+# rather than a network"), and punctuation must not end up inside the name.
+CITE = re.compile(r"<cite>\s*([A-Za-z]+\d+)\b.*?item\?id=(\d+)", re.S)
 
 
 def normal(text: str) -> str:
@@ -64,12 +75,43 @@ def quotes(markdown: str):
         block = []
 
 
+def page_quotes(html: str):
+    """Yield (quoted_text, author, item_id) for each .quote block on the page."""
+    for block in BLOCK.findall(html):
+        cite = CITE.search(block)
+        if not cite:
+            continue
+        body = block[:block.index("<cite")] if "<cite" in block else block
+        body = re.sub(r"<[^>]+>", " ", body)
+        body = (body.replace("&amp;", "&").replace("&lt;", "<").replace("&gt;", ">")
+                    .replace("&quot;", '"').replace("&#39;", "'").replace("&thinsp;", " "))
+        yield body, cite.group(1), cite.group(2)
+
+
 def main() -> int:
     corpus = {row["item_id"]: row for row in csv.DictReader(open(CORPUS, encoding="utf-8"))}
-    markdown = open(FINDINGS, encoding="utf-8").read()
+
+    sources = [(FINDINGS, quotes(open(FINDINGS, encoding="utf-8").read()))]
+    if os.path.exists(PAGE):
+        sources.append((PAGE, page_quotes(open(PAGE, encoding="utf-8").read())))
 
     checked = failed = 0
-    for text, author, item_id in quotes(markdown):
+    for name, found in sources:
+        print("\n%s" % name)
+        c, f = check(corpus, found)
+        checked += c
+        failed += f
+
+    if not checked:
+        print("no attributed quotes found — check the quote format", file=sys.stderr)
+        return 2
+    print("\n%d/%d quotes verified against the corpus" % (checked - failed, checked))
+    return 1 if failed else 0
+
+
+def check(corpus, found):
+    checked = failed = 0
+    for text, author, item_id in found:
         checked += 1
         row = corpus.get(item_id)
         if row is None:
@@ -86,13 +128,8 @@ def main() -> int:
             print("    quoted: %s" % text[:90])
             failed += 1
             continue
-        print("ok  %s  %s" % (item_id, text[:60].replace("\n", " ")))
-
-    if not checked:
-        print("no attributed quotes found — check the quote format", file=sys.stderr)
-        return 2
-    print("\n%d/%d quotes verified against the corpus" % (checked - failed, checked))
-    return 1 if failed else 0
+        print("  ok  %s  %s" % (item_id, " ".join(text.split())[:58]))
+    return checked, failed
 
 
 if __name__ == "__main__":

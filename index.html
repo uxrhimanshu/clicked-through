@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Clicked Through</title>
+<meta name="description" content="A design-research study of what technical people do when a security warning has no answer they can give. 76 coded items from 372 Hacker News threads.">
+<style>
+  :root { --page:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781; --grid:#e1e0d9; --baseline:#c3c2b7; --accent:#2a78d6; --accent-deep:#1c5cab; --accent-light:#9ec5f4; --gray-bar:#c3c2b7; --border:rgba(11,11,11,.10); --chip:rgba(42,120,214,.08); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink-2:#c3c2b7; --muted:#898781; --grid:#2c2c2a; --baseline:#383835; --accent:#3987e5; --accent-deep:#6da7ec; --accent-light:#184f95; --gray-bar:#52514e; --border:rgba(255,255,255,.10); --chip:rgba(57,135,229,.14); } }
+  :root[data-theme="dark"] { --page:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink-2:#c3c2b7; --muted:#898781; --grid:#2c2c2a; --baseline:#383835; --accent:#3987e5; --accent-deep:#6da7ec; --accent-light:#184f95; --gray-bar:#52514e; --border:rgba(255,255,255,.10); --chip:rgba(57,135,229,.14); }
+
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; background:var(--page); }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *, *::before, *::after { transition:none!important; animation:none!important; } }
+  body { margin:0; color:var(--ink); background:var(--page); font-family:Georgia,'Times New Roman',serif; font-size:18px; line-height:1.62; overflow-x:hidden; }
+  .sans, .chart, .figure, nav, .kicker, .byline, .stats, .method, footer, .ev, .topbar { font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { padding:0 24px 96px; }
+  .prose, .hero, .method, .close { max-width:68ch; margin-inline:auto; }
+  h1,h2,h3,p { margin-top:0; }
+  a { color:var(--accent-deep); }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+  .hero { padding:72px 0 8px; }
+  .kicker { color:var(--muted); font-size:11px; font-weight:650; letter-spacing:.16em; margin:0 0 24px; text-transform:uppercase; }
+  h1 { font-size:clamp(3rem,9vw,6rem); line-height:.94; letter-spacing:-.065em; font-weight:500; margin:0 0 25px; max-width:9ch; text-wrap:balance; }
+  .deck { font-size:clamp(1.3rem,2.6vw,1.85rem); line-height:1.34; max-width:30ch; margin-bottom:22px; text-wrap:balance; }
+  .byline { color:var(--ink-2); font-size:13px; line-height:1.5; }
+  .byline a { color:var(--ink-2); }
+
+  .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; border:1px solid var(--border); background:var(--border); margin:54px auto 0; max-width:880px; }
+  .stat { background:var(--surface); padding:22px 20px 20px; min-height:128px; }
+  .stat-value { display:block; font-weight:650; font-size:clamp(2.1rem,3.6vw,2.9rem); letter-spacing:-.06em; line-height:1; margin-bottom:9px; font-variant-numeric:tabular-nums; }
+  .stat-label { color:var(--ink-2); font-size:12px; line-height:1.4; display:block; }
+  @media (max-width:620px) { .stats { grid-template-columns:1fr; } .stat { min-height:0; } }
+
+  .topbar { position:fixed; inset:0 0 auto; z-index:10; transform:translateY(-110%); opacity:0; transition:transform 150ms ease,opacity 150ms ease; background:color-mix(in srgb,var(--page) 94%,transparent); border-bottom:1px solid var(--border); backdrop-filter:blur(12px); }
+  .topbar.visible { transform:translateY(0); opacity:1; }
+  .nav-inner { max-width:1100px; margin:auto; display:flex; overflow-x:auto; gap:20px; padding:10px 24px; white-space:nowrap; font-size:12px; }
+  .topbar a { color:var(--muted); text-decoration:none; }
+  .topbar a:hover,.topbar a:focus-visible { color:var(--ink); }
+
+  section { padding-top:95px; scroll-margin-top:56px; }
+  h2 { font-size:clamp(2rem,4.6vw,3.2rem); font-weight:500; letter-spacing:-.045em; line-height:1.05; margin:0 0 30px; text-wrap:balance; }
+  .prose p { margin-bottom:1.25em; }
+  .lede { font-size:1.15em; }
+
+  .figure { max-width:880px; margin:48px auto 0; color:var(--ink); }
+  .chart-title { font-size:13px; font-weight:650; letter-spacing:.015em; margin:0 0 12px; }
+  .chart-wrap { border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:20px 0 16px; }
+  .caption { color:var(--muted); font-size:12px; line-height:1.45; margin:10px 0 0; max-width:70ch; }
+  .caption b { color:var(--ink-2); font-weight:650; }
+
+  /* funnel */
+  .fn { display:grid; gap:14px; }
+  .fn-row { display:grid; grid-template-columns:minmax(0,1fr); gap:5px; }
+  .fn-head { display:flex; align-items:baseline; gap:10px; font-size:12px; }
+  .fn-label { color:var(--ink-2); font-weight:650; }
+  .fn-n { color:var(--ink); font-weight:650; font-variant-numeric:tabular-nums; margin-left:auto; }
+  .fn-bar { height:16px; background:var(--accent-light); border:0; }
+  .fn-row:last-child .fn-bar { background:var(--accent); }
+  .fn-lost { color:var(--muted); font-size:11.5px; line-height:1.4; }
+
+  /* code chart */
+  .cc { display:grid; gap:11px; }
+  .cc-row { display:grid; grid-template-columns:minmax(120px,15.5em) minmax(0,1fr); gap:14px; align-items:center; }
+  .cc-name { font-size:12px; color:var(--ink-2); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+  .cc-bars { display:grid; gap:3px; }
+  .cc-bar { display:flex; align-items:center; gap:7px; }
+  .cc-fill { height:11px; background:var(--accent); }
+  .cc-bar.t .cc-fill { height:7px; background:var(--gray-bar); }
+  .cc-v { font-size:11px; color:var(--muted); font-variant-numeric:tabular-nums; }
+  .key { display:flex; gap:16px; font-size:11.5px; color:var(--muted); margin:0 0 16px; flex-wrap:wrap; }
+  .key i { display:inline-block; width:16px; height:9px; margin-right:6px; vertical-align:middle; font-style:normal; }
+  .key .a { background:var(--accent); } .key .g { background:var(--gray-bar); }
+  @media (max-width:560px) { .cc-row { grid-template-columns:minmax(0,1fr); gap:4px; } }
+
+  .cards { max-width:880px; margin:55px auto 0; }
+  .card { border-top:1px solid var(--border); padding:30px 0 34px; }
+  .card:last-child { border-bottom:1px solid var(--border); }
+  .card h3 { font-size:clamp(1.35rem,2.8vw,1.9rem); letter-spacing:-.035em; line-height:1.14; font-weight:500; margin:0 0 14px; text-wrap:balance; }
+  .n { color:var(--muted); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:.62em; font-weight:600; letter-spacing:.04em; white-space:nowrap; }
+  .card p { max-width:68ch; margin-bottom:1em; }
+  .quote { background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; font-size:14px; line-height:1.55; max-width:680px; margin:23px 0 0; padding:18px 20px; }
+  .quote p { margin:0 0 9px; }
+  .quote cite { color:var(--muted); font-size:11px; font-style:normal; }
+  .quote cite a { color:var(--muted); }
+
+  /* evidence explorer */
+  .ev { max-width:880px; margin:0 auto; }
+  .ev-controls { border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:18px 0; position:sticky; top:0; background:var(--page); z-index:5; }
+  .ev-search { width:100%; max-width:340px; font:inherit; font-size:14px; color:var(--ink); background:var(--surface); border:1px solid var(--border); padding:8px 10px; margin-bottom:14px; }
+  .ev-search::placeholder { color:var(--muted); }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chip { font:inherit; font-size:11.5px; color:var(--ink-2); background:transparent; border:1px solid var(--border); border-radius:999px; padding:4px 11px; cursor:pointer; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .chip:hover { border-color:var(--baseline); }
+  .chip[aria-pressed="true"] { background:var(--chip); border-color:var(--accent); color:var(--accent-deep); font-weight:600; }
+  .chip b { font-weight:650; font-variant-numeric:tabular-nums; }
+  .ev-count { color:var(--muted); font-size:12px; margin:16px 0 0; }
+  .ev-list { display:grid; gap:0; margin-top:4px; }
+  .ev-item { border-bottom:1px solid var(--border); padding:22px 0 20px; }
+  .ev-meta { display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; font-size:11px; color:var(--muted); margin-bottom:7px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+  .ev-code { color:var(--accent-deep); }
+  .ev-thread { font-family:Georgia,'Times New Roman',serif; font-size:14px; color:var(--ink-2); font-style:italic; margin:0 0 9px; }
+  .ev-text { font-size:14px; line-height:1.6; color:var(--ink); margin:0; white-space:pre-wrap; overflow-wrap:anywhere; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; }
+  .ev-item.open .ev-text { display:block; overflow:visible; }
+  .ev-more { font:inherit; font-size:11.5px; color:var(--accent-deep); background:none; border:0; padding:6px 0 0; cursor:pointer; text-decoration:underline; }
+  .ev-link { font-size:11px; color:var(--muted); text-decoration:none; border-bottom:1px solid var(--border); }
+  .ev-link:hover { color:var(--ink-2); }
+  .ev-empty { color:var(--ink-2); font-size:14px; padding:28px 0; }
+
+  .method { border-top:1px solid var(--border); color:var(--ink-2); font-size:14px; line-height:1.58; margin-top:110px; padding-top:36px; }
+  .method h2 { color:var(--ink); font-family:Georgia,'Times New Roman',serif; font-size:2rem; margin-bottom:18px; }
+  .method ul { margin:0; padding-left:1.2em; }
+  .method li { padding-left:.2em; margin:0 0 11px; }
+  .method b { color:var(--ink); font-weight:650; }
+  .close { padding-top:95px; }
+  footer { border-top:1px solid var(--border); color:var(--muted); font-size:12px; margin-top:80px; padding:25px 24px; text-align:center; }
+  footer a { color:inherit; }
+</style>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <nav class="nav-inner" aria-label="Sections">
+    <a href="#finding">The finding</a>
+    <a href="#method-funnel">How it was drawn</a>
+    <a href="#what">What people said</a>
+    <a href="#evidence">The evidence</a>
+    <a href="#limits">What it cannot support</a>
+    <a href="#wrong">What went wrong</a>
+  </nav>
+</div>
+
+<main>
+
+  <header class="hero">
+    <p class="kicker">Netnography · Hacker News · 2021–2026</p>
+    <h1>Clicked through</h1>
+    <p class="deck">I went looking for people who weigh a risk and proceed anyway. I found
+      people meeting a warning that has no answer they can give.</p>
+    <p class="byline">A design-research study by <a href="https://uxrhimanshu.com">Himanshu Kalra</a>.
+      76 coded items, drawn from a corpus of 372 Hacker News threads. The corpus, the
+      sampling log and every screening decision are
+      <a href="https://github.com/uxrhimanshu/clicked-through">in the repository</a>.</p>
+  </header>
+
+  <div class="stats" role="group" aria-label="Headline counts">
+    <div class="stat">
+      <span class="stat-value" id="s-a">14</span>
+      <span class="stat-label">items, across 10 separate threads, about a warning that
+        <b>cannot be satisfied</b> — the largest and most widely spread code</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value" id="s-b">6</span>
+      <span class="stat-label">items where someone weighs a risk and proceeds — the thing
+        this study went looking for, one per thread, nowhere discussed at length</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">3,158&thinsp;→&thinsp;76</span>
+      <span class="stat-label">items retrieved, then read, then coded. Every drop in
+        between is recorded with a reason</span>
+    </div>
+  </div>
+
+  <section id="finding" class="prose">
+    <h2>The warning that cannot be obeyed</h2>
+    <p class="lede">A browser tells you a certificate cannot be trusted. You are connecting
+      to a printer on your own network. There is no compliant answer to give, because the
+      public-CA path the warning assumes does not exist for a device on a LAN address.</p>
+    <p>The warning has one meaning available — <i>someone may be attacking you</i> — and the
+      situation has another, and nothing in the interface can hold both. This is the largest
+      code in the corpus and the most widely spread across threads, and it is not a story
+      about judgement. It is a story about a dialog with no correct button.</p>
+    <p>When someone proceeds here they are not discounting a risk they understand. They are
+      resolving a mismatch between what the warning can express and what is actually
+      happening. That distinction matters, because the behaviour gets recorded as user
+      error either way.</p>
+    <p>Three things follow, and practitioners describe all three themselves: the
+      organisation forbids the compliant path until the insecure one becomes policy; the
+      goal quietly becomes the silence of the indicator rather than the security it
+      indicated; and everyone involved can see the habituation coming and says so.</p>
+  </section>
+
+  <section id="method-funnel">
+    <div class="figure">
+      <p class="chart-title">From search results to coded evidence</p>
+      <div class="chart-wrap">
+        <div class="fn" id="fn"></div>
+      </div>
+      <p class="caption">Each stage is a count from the study's own records — the first two
+        from the sampling log the collection tool wrote, the last two from
+        <b>screening.csv</b>, which carries a decision and a declared reason for all 1,785
+        items. <b>Only 76 survive.</b> A corpus can be large and still almost empty, and
+        the honest way to show that is the drop, not the total.</p>
+    </div>
+  </section>
+
+  <section id="what" class="prose">
+    <h2>What people actually said</h2>
+    <p>Five patterns, in the order the argument runs. Every quote below appears verbatim in
+      the published corpus, and a script in the repository checks that — not that the id
+      resolves, but that the quoted words are really in the item they are attributed to.</p>
+  </section>
+
+  <div class="cards">
+
+    <article class="card">
+      <h3>The compliant path exists, and the organisation forbids it <span class="n">4 items · 2 threads</span></h3>
+      <p>Where a compliant option does exist, the obstacle described is almost never
+        technical. It is a queue.</p>
+      <div class="quote">
+        <p>Unfortunately, enterprises are intensely risk averse. I worked at a place where we
+          could only generate proper certs by manually submitting a ticket to IT and waiting
+          probably days to get it back, giving us zero hope of applying meaningful
+          automation. Getting certs from a proper CA was absolutely forbidden, despite our
+          lobbying, so in a lot of cases self-signed certs were the only option if we wanted
+          to automate.</p>
+        <cite>A117 · <a href="https://news.ycombinator.com/item?id=36506195">on Hacker News</a></cite>
+      </div>
+      <div class="quote">
+        <p>Where I work it’s months, and fights, and maybe even several meetings. And that’s
+          only if you fill out the correct form the exact right way. Any slight deviation and
+          your ticket is closed weeks after you opened it with the field you got wrong.</p>
+        <cite>A118 · <a href="https://news.ycombinator.com/item?id=36506755">on Hacker News</a></cite>
+      </div>
+      <p style="margin-top:20px">The prohibition on proper certificates is what put
+        self-signed certificates into production. A risk-averse process produced a less
+        secure outcome than no process would have. Both items sit in one thread, so read it
+        as an illustration rather than a distribution.</p>
+    </article>
+
+    <article class="card">
+      <h3>The goal becomes the silence of the indicator <span class="n">3 items · 2 threads</span></h3>
+      <p>The clearest item in the corpus, and the one that most deserves reading twice.</p>
+      <div class="quote">
+        <p>I have one supplier that uses letsencrypt to generate a wildcard certificate, then
+          distributes it as part of a software update to thousands of machines in hundreds of
+          companies across the world. The exact same certificate and key. But it gets rid of
+          the red X in a browser so tick</p>
+        <cite>A127 · <a href="https://news.ycombinator.com/item?id=36508087">on Hacker News</a></cite>
+      </div>
+      <p style="margin-top:20px">A private key shipped to thousands of machines is worse than
+        the self-signed certificate it replaced — the same poster says so in the next
+        sentence. What it buys is a browser that stops complaining. The indicator became the
+        target, and nothing downstream is capable of noticing, because from the browser's
+        point of view nothing is wrong.</p>
+    </article>
+
+    <article class="card">
+      <h3>Everyone can see the habituation coming <span class="n">5 items · 4 threads</span></h3>
+      <p>The corpus does not need an outside analyst to point out that unsatisfiable warnings
+        train people to dismiss warnings. Practitioners say it unprompted, as an argument
+        against a design.</p>
+      <div class="quote">
+        <p>Second, it reduces your security because your users will inevitably learn to ignore
+          certificate errors.  Thirdly, you'll never stop the certificate errors.</p>
+        <cite>A122 · <a href="https://news.ycombinator.com/item?id=36507168">on Hacker News</a></cite>
+      </div>
+      <div class="quote">
+        <p>the auto-generated self-signed RDP server certificates are only valid for 6 months
+          for some reason, so users eventually learn to just ignore these warnings.</p>
+        <cite>A52 · <a href="https://news.ycombinator.com/item?id=41436340">on Hacker News</a></cite>
+      </div>
+      <p style="margin-top:20px">“Six months for some reason” is the whole mechanism in five
+        words. A default nobody chose deliberately sets how often an unavoidable warning
+        fires, and the frequency decides what the warning comes to mean.</p>
+      <div class="quote">
+        <p>There'll be a sign that says "Peanut free zone" and everyone will read it and
+          respect it.  Then there'll be a sign that says "Please be sure to pick your kid up
+          by x o'clock." And everyone will read it and respect it and silently stop looking at
+          it cause they know.</p>
+        <cite>A902, on a daycare rather than a network · <a href="https://news.ycombinator.com/item?id=45533836">on Hacker News</a></cite>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>The control that teaches the opposite lesson <span class="n">13 items · 4 threads</span></h3>
+      <p>The second-largest code is about security controls training the behaviour they
+        punish. Phishing training dominates it, and the complaint is consistently mechanical
+        rather than attitudinal.</p>
+      <div class="quote">
+        <p>My university routinely sends notifications about required annual phishing training
+          that violate almost every point in the training about how to avoid getting phished.
+          Its been happening for years. Urgency. Appeals to authority. Grammatical errors.
+          Mystery click-me links that go outside the domain to training service providers that
+          we do not use in any other context.</p>
+        <cite>A925 · <a href="https://news.ycombinator.com/item?id=45534755">on Hacker News</a></cite>
+      </div>
+      <div class="quote">
+        <p>Corporations outsource almost every single tool used by their employees and train
+          them to cough up their corporate credentials no matter what url the browser
+          identifies. In essence, they phish their employees 100 times a day.</p>
+        <cite>A922 · <a href="https://news.ycombinator.com/item?id=45532736">on Hacker News</a></cite>
+      </div>
+      <p style="margin-top:20px">This is the sharpest design claim in the study. The advice —
+        <i>check the domain</i> — is not wrong. It is inapplicable, because the organisation
+        has already made its legitimate traffic indistinguishable from the attack. The
+        training asks people to apply a test their employer has arranged to fail.</p>
+      <p>And the measurement sits on the same footing as the advice:</p>
+      <div class="quote">
+        <p>A couple of times, I got emails that seemed suspicious, but I figured I would click
+          the link to investigate further. I was on high alert and would not have entered
+          login credentials or opened an executable or anything like that, I just wanted to
+          check it out and see.  Of course, it was a phishing audit and I failed.</p>
+        <cite>A834 · <a href="https://news.ycombinator.com/item?id=45532990">on Hacker News</a></cite>
+      </div>
+      <p style="margin-top:20px">Someone who investigated a suspicious email carefully and
+        disclosed nothing is recorded as a failure. Whatever that metric counts, it is not
+        the thing the programme exists to prevent. The end state is reported as an outcome
+        rather than a prediction:</p>
+      <div class="quote">
+        <p>The phishing training in my workplace is so odious, and the consequences for
+          failing a test are high enough, that it's led to everyone just ignoring all
+          unexpected communications. Better to ignore it all than to risk making a mistake.</p>
+        <cite>A550 · <a href="https://news.ycombinator.com/item?id=44941422">on Hacker News</a></cite>
+      </div>
+    </article>
+
+    <article class="card">
+      <h3>What is almost absent <span class="n">6 items · 6 threads</span></h3>
+      <p>Worth stating because the study went looking for it. The framing this work started
+        from — competent people weighing a risk and choosing to proceed — is present, but it
+        is small and thin: six items, one per thread, no sustained discussion anywhere.</p>
+      <p>There are two readings and this corpus cannot separate them. Either the deliberate
+        risk calculus is rarer than the security literature's framing assumes, or it is
+        simply not the kind of thing people write posts about, while unsatisfiable warnings
+        and absurd training are. <b>The second is more likely</b> — an unremarkable decision
+        generates no text — and no count here is evidence for the first.</p>
+      <p>What the corpus does support is narrower, and more useful: when these practitioners
+        explain proceeding past a security warning, they overwhelmingly explain it as a
+        property of the situation they were placed in rather than as a judgement they made.</p>
+    </article>
+
+  </div>
+
+  <section id="codes">
+    <div class="figure">
+      <p class="chart-title">Every code, by items and by how many threads they came from</p>
+      <p class="key"><span><i class="a"></i>items</span><span><i class="g"></i>distinct threads</span></p>
+      <div class="chart-wrap">
+        <div class="cc" id="cc"></div>
+      </div>
+      <p class="caption">Read the thread bar before the item bar. A code spread across many
+        threads is a pattern in the corpus; a code concentrated in one is a single argument
+        that happened once. <b>control-as-liability-transfer is four items in one thread</b>,
+        which is why it is named in the codebook and not presented as a finding.</p>
+    </div>
+  </section>
+
+  <section id="evidence">
+    <div class="ev">
+      <h2>The evidence</h2>
+      <p class="prose" style="max-width:68ch;margin:0 0 28px;font-family:Georgia,serif">All
+        76 coded items, in full. Filter by code, search the text, and follow any item back to
+        the thread it came from. This is the part that makes the rest checkable rather than
+        merely claimed.</p>
+
+      <div class="ev-controls">
+        <label class="sr-only" for="ev-search" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search the evidence</label>
+        <input id="ev-search" class="ev-search" type="search" placeholder="Search the items…" autocomplete="off">
+        <div class="chips" id="chips" role="group" aria-label="Filter by code"></div>
+      </div>
+
+      <p class="ev-count" id="ev-count"></p>
+      <div class="ev-list" id="ev-list"></div>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="method">
+      <h2>What this cannot support</h2>
+      <ul>
+        <li><b>No frequencies.</b> Nothing here supports “X% of engineers do Y”. A corpus
+          assembled by phrase search from a self-selected forum has no denominator. The counts
+          on this page are counts of items in this corpus and nothing more.</li>
+        <li><b>Thirty threads, not 372.</b> The corpus spans 372 threads, but the 76 coded
+          items come from <span id="lim-threads">30</span> of them. Several codes rest on a
+          single conversation, which is why the chart above shows thread spread next to every
+          item count.</li>
+        <li><b>Posters are not users.</b> The overwhelming majority of people who read these
+          threads never post, and nothing here represents them.</li>
+        <li><b>Self-selection, twice over.</b> People write about a warning when the episode
+          was unusual or annoying, on a forum that rewards a good story. Routine, uneventful
+          compliance generates no text and is invisible here by construction.</li>
+        <li><b>Retrospective accounts are accounts.</b> Someone explaining why they proceeded
+          is reconstructing a decision, often long after it. That is legitimate data about how
+          the decision is justified. It is not evidence of what went through their head.</li>
+        <li><b>First-pass coding was LLM-proposed</b>, then reviewed by the author. No
+          inter-rater statistic is reported, because none would mean anything. It would be
+          absurd to write about people taking a defensible-looking shortcut and then quietly
+          take one.</li>
+        <li><b>One community.</b> Hacker News is English-speaking, technical, US-weighted and
+          unusually confident of its own competence. Every finding is a finding about that
+          population.</li>
+        <li><b>A recency sample wearing a date range.</b> Search returns newest-first, so a
+          date floor plus a thread limit yields the most recent matching threads rather than a
+          spread. The sampling log reports this per query, with the gaps named.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="wrong" class="close prose">
+    <h2>What went wrong</h2>
+    <p>Three approaches failed before this one worked, and they are kept in the repository
+      rather than tidied away.</p>
+    <p><b>A large corpus can be empty.</b> The first harvest returned 1,786 items and was
+      mostly noise: search matches whole threads, so a product announcement that used the
+      phrase “security warning” once arrived with ninety replies about pricing attached.
+      <b>Tightening the query did not fix it</b> — the second returned 1,791 with the same
+      problem.</p>
+    <p><b>A keyword screen is precise about words and blind to meaning.</b> The third attempt
+      kept only items containing a query phrase. It cut 2,350 items to 103 — and kept a link
+      post titled “Preventing Alert Fatigue” with no body text at all, and a Kubernetes
+      certificate-pinning argument, while missing every account phrased in words the list had
+      not anticipated. That corpus is committed as <b>corpus-lexical-screen/</b> so the
+      failure is inspectable rather than asserted.</p>
+    <p>The phenomenon is semantic and the retrieval is lexical. No amount of query tuning
+      closes that gap; something has to read the items. Hence a read-through with a recorded
+      decision for every one.</p>
+    <p><b>And the question itself changed.</b> It began as “why do people click through
+      security warnings”, the corpus could support about ten items on that, and it was
+      reframed — before coding, so the codes were not fitted to a conclusion. The original
+      framing survives as a result of its own, in <i>What is almost absent</i> above.</p>
+  </section>
+
+  <section class="close prose">
+    <h2>The other half</h2>
+    <p><a href="https://github.com/uxrhimanshu/the-human-element">the-human-element</a>
+      examined 10,042 public security incidents and found a large share running through
+      interfaces, defaults and warnings that set people up to fail. It cannot say why anyone
+      proceeded, because incident records store outcomes.</p>
+    <p>These 76 items are an answer in practitioners' own words, pointing at the same place
+      from the other side. Neither study establishes a frequency. Together they do something
+      more modest and harder to dismiss: a pattern found in incident records, described
+      independently and unprompted by the people who work inside it.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>Built with <a href="https://github.com/uxrhimanshu/fieldnotes">fieldnotes</a> and
+    <a href="https://github.com/uxrhimanshu/research-deid">research-deid</a> ·
+    <a href="https://github.com/uxrhimanshu/clicked-through">Source, corpus and method</a> ·
+    <a href="https://uxrhimanshu.com">Himanshu Kalra</a></p>
+  <p>Corpus items are public posts by their authors, pseudonymised. The re-identification
+    key is not published.</p>
+</footer>
+
+<!--BUILD:DATA-->
+<script id="study-data" type="application/json">{"items":[{"id":"45531134","code":"control-as-liability-transfer","who":"A889","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"> - Part of the problem is just that a normal workflow is: receive email --> click on URL --> enter credentials into 3rd party website. ie, this is intentional and valid behavior for most white collar workers on a daily basis. \n\nHere's a crazy history of that happening...\n\nI had a friend who was an employee of a Fortune 100 corporation. Part of employee training was not to click on links in emails. In the 1990s and the rise of the internet, they had an internal security \"red team\" periodically send a fake phishing emails to employees. If the employee mistakenly clicked on a link in that email, the red team would send a notice to the employee's manager. It worked well because employees would not want to be embarrassed by a manager having to review the security policy with them to get their access back.\n\nWhen she retired, all that training became useless and she was phished by a fake AT&T email. Why? Because with the rise of smartphones, every _legitimate_ company started sending emails that had useful tappable links. With the touchscreen, you can't hover your finger over the link to see what the underlying url is. People just normalize pressing on links in transactional emails as a convenient thing to do. E.g. Amazon sends an email with a link to the order status. A legit bank will send an email with a link for \"Please review your security setting.\"\n\nSmartphones reversed 15 years of not clicking on email links."},{"id":"45531623","code":"control-as-liability-transfer","who":"A803","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"I recently got reported for clicking a phishing link three times. Looking at the audit log all three of these clicks supposedly happened within seconds of each other.\n\nMy suspicion is the training company realized no one was falling for the obvious bait anymore and they needed to gin up the numbers to keep the company convinced that paying for their services was worthwhile.\n\nMeanwhile all corporate teams use the same VLAN and DHCP Address Pool. There is zero separation of departments on the network. A lot of companies get this precise situation backwards as we have."},{"id":"45532875","code":"control-as-liability-transfer","who":"A923","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"The point of these trainings is to satisfy compliance requirements and to deflect responsibility when someone inevitably fucks up. All HR mandated training courses are to protect the company, by allowing them to blame the employee when something goes wrong. It's not our fault, we told them not to, here's the proof."},{"id":"45532990","code":"control-as-liability-transfer","who":"A834","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"Why is clicking the link a failure? I thought this was the point of keeping my browser up to date, so I can trust the sandbox!\n\nA couple of times, I got emails that seemed suspicious, but I figured I would click the link to investigate further. I was on high alert and would not have entered login credentials or opened an executable or anything like that, I just wanted to check it out and see.\n\nOf course, it was a phishing audit and I failed. WTF?"},{"id":"44932434","code":"control-teaches-opposite","who":"A942","year":"2025","thread":"Understanding the Efficacy of Phishing Training in Practice [pdf]","text":"Our results suggest that these efforts offer limited value.\n\nFirst, we find no significant relationship between whether users have recently completed cybersecurity awareness training and their likelihood of failing a phishing simulation.\n\nSecond, when evaluating recipients of embedded phishing training, we find that the absolute difference in failure rates between trained and untrained users is extremely low across a variety of training content.\n\nThird, we observe that most users spend minimal time interacting with embedded phishing training material in-the-wild; and that for specific types of training content, users who receive and complete more instances of the training can have an increased likelihood of failing subsequent phishing simulations.\n\nTaken together, our results suggest that anti-phishing training programs, in their current and commonly deployed forms, are unlikely to offer significant practical value in reducing phishing risks.\n\nI've long been of the view that most of the \"phishing training\" that gets sold to companies is largely snake oil with very little benefit, and is essentially a compliance-driven waste of money. It's nice to see a study supporting this view."},{"id":"44941422","code":"control-teaches-opposite","who":"A550","year":"2025","thread":"Phishing training is pretty pointless, researchers find","text":"The phishing training in my workplace is so odious, and the consequences for failing a test are high enough, that it's led to everyone just ignoring all unexpected communications. Better to ignore it all than to risk making a mistake. Even emails from known coworkers (the phish test often spoofs as your coworkers) tend to be ignored until the coworker confirms they sent it.\n\nThis is great for security (the most secure communication is communication that doesn't happen), but now the suits are wondering why it is that nobody is reading or responding to company emails anymore."},{"id":"45530790","code":"control-teaches-opposite","who":"A897","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"I had an exec at a tech company once send out an email with the subject line \"Important.\" All there was, was an attached .docx file, and a sentence saying to read it immediately. This guy should have been fired for this level of incompetence. No, it wasn't a phishing test.\n\nThen Microsoft sends out e-mail advertisements with fucking QR codes in them to everybody to get people to install software without IT department's knowledge. So you not only can't see the link, you can't even de-obfuscate it by hovering over it.\n\nThere's a really easy fix for this. It's so fucking easy it hurts my brain.\n\nDisable HTML e-mails. Disable hyperlinks. Feel free to send URLs, but make people copy and paste the link. This way they have to at least select the link. When they get a 6000 character link and can't copy paste it? That's good! Because they have no idea what the link actually is.\n\nNobody will do it, and I don't get why not. Do you really need to market to your internal employees so badly with images and links? That's what a portal is for. Post updates on your portal and stop bombarding my goddamn email box."},{"id":"45530826","code":"control-teaches-opposite","who":"A883","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"The fact that your employer might direct you to a URL that doesn't look like their normal domain (or through some kinda link shortener so you can't see it without clicking) for legitimate reasons basically undoes all security yeah. Why can't security teams focus on correcting those parts?"},{"id":"45530891","code":"control-teaches-opposite","who":"A854","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"Seems like they counted it as a failure if the user just clicked the link in the email. But what are the supposed to do? Never click links in emails? Only click links to some white-list of domains they hold in their head? I would think clicking a link is fine, but entering credentials is not.\n\nIt's no surprise people didn't engage with training material on the pretend phishing site!! At that stage, they're told it was a trap and they shouldn't even be there so of course they're going to get out asap."},{"id":"45531329","code":"control-teaches-opposite","who":"A913","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"The reason might be that the training programs are just ridiculously bad. I clicked on a pretend phishing link out of interest to see what happens. I was treated to a lecture of how clicking on links in emails is always bad and to never do it.\n\nThat advise would be fine (albeit maybe extreme) if it wasn't the case that for the last year I have been spammed by emails from said training company telling me to click on the included link to complete the next cybersecurity course. Even worse they use some nondescriptive weirdly named domain not their own to host the training courses. So if anything the courses are training people to click on phishing emails."},{"id":"45532469","code":"control-teaches-opposite","who":"A900","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"No, it's not. Phishing isn't a social problem, it's a technological problem. Whether or not you can intercept my credentials shouldn't be a question of how much I trust my IT department or how well I'm trained; the credentials simply shouldn't allow that to happen. That's the entire reason U2F was invented, and then WebAuthn and FIDO2."},{"id":"45532515","code":"control-teaches-opposite","who":"A890","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"The first company I worked for as a developer was like this, except worse.\n\nWe got hit with some Christmas virus. One of the devs was talking about how he had mistakenly clicked on the link, but nothing happened. We were at lunch and suddenly were all looking at each other like, \"Dave, this isn't good!\" told him to call support because we had all seen the emails from security to not click on any links in emails because so many of these were making the rounds.\n\nThey took his laptop, reimaged it and gave back to him. The funny part was the Outlook team disabled any links in any emails he got from then on. Not sure how they did it, but if you wanted to send him a link, you had to send it to his personal email or over one of his social media accounts. Any time he got a link, if it was for business, he would have to call support, open a ticket and then an hour later, they would send him the link to open.\n\nIt drove the guys nuts. He asked repeatedly to have them enable the links, but they basically told him once you were on the list, it was for good. He quit after four months and said one of the most infuriating things was security never allowing him to get off of the \"naughty\" list."},{"id":"45532736","code":"control-teaches-opposite","who":"A922","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"Corporate practices are the primary form of cybersecurity training. I have seen too many corporations (including critical infrastructure corps) that force employees to login to foreign domains with corporate credentials. This includes email services, two factor authentication, team chat, LMS, dashboards, surveys, web meetings, code forges, ticket tracking, VPN, etc.\n\nCorporations outsource almost every single tool used by their employees and train them to cough up their corporate credentials no matter what url the browser identifies. In essence, they phish their employees 100 times a day. Then they force employees to sit through training twice a year to identify phishing attacks. Every legitimate training will create cognitive dissonance with employees' every day work experiences."},{"id":"45534755","code":"control-teaches-opposite","who":"A925","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"My university routinely sends notifications about required annual phishing training that violate almost every point in the training about how to avoid getting phished. Its been happening for years. Urgency. Appeals to authority. Grammatical errors. Mystery click-me links that go outside the domain to training service providers that we do not use in any other context. References to alternative ways to get to the training that don't work.\n\nI've reported it multiple times over the last few years but our IT security team blows off the concern, insists that I follow the link, and changes nothing. And no, it isn't just them testing people to see if they will fall for it. I am also in a position to see the tracking reports and be in meetings where expectations are discussed.\n\nOur program is explicitly training people to get phished."},{"id":"45539888","code":"control-teaches-opposite","who":"A894","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"At the very least it would stop the link manipulation that some email systems do (looking at you Exchange Online w/ \"Link Protection\") so now you get to see that it's some phishing site going to g00gle.co instead of Exchange's \"protection.officelinks.com/asfgqwerty12345....\" and so on for 150 characters."},{"id":"45620711","code":"control-teaches-opposite","who":"A854","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"How can clicking a link get you hacked? 20 years ago with insecure browsers, yes, but how does that happen today? homograph doesn't matter if you don't even look at the domain name.\n\nIf those employees are supposed to do you recommendation and never click links in emails, why don't their employers strip URLs from emails for them? Some of them are a already inserting warning messages for external emails. I think they're supposed to do the white-list-in-head thing which seems awful."},{"id":"48229314","code":"control-teaches-opposite","who":"A795","year":"2026","thread":"Shira: Anti Phishing Training Platform","text":"hey!\nour team developed this tool that allows security trainers and teams to develop their own anti-phihing-education trainings based on their own threats, apps, context and language.\n\nwould love to get your feedback on it :)\n\nWe are also aunching a free-program for 10 orgs on our Enterprise plan --> https://docs.google.com/forms/d/e/1FAIpQLSc5nl1K8IQWuvoR_6PH..."},{"id":"49049796","code":"designing-against-click-through","who":"A2","year":"2026","thread":"Ask HN: Which Jabber clients support SCRAM+ and XEP-0474","text":"Related to this thread [1] which Jabber clients not only detect MitM tampering when a valid cert is used in the middle but is not the cert on the server, meaning an entity obtained a certificate, used it to MitM the connection and the client not only rejects this alternate valid certificate but also alerts the user to the MitM. XEP-0474 SASL SCRAM Downgrade Protection (Experimental) [2] Claude does not seem to know and I can't find any clarifying documentation, just lots of open issues.\n\nThe purpose is for writing an article on E2EE but I want to suggest clients that will alert on MitM tampering in a manor the person using the client can not accidentally ignore it. i.e. just click through a warning\n\nOn the server side eJabberd and Prosody appear to be the only server daemons supporting XEP-0474 but I just can't find a definitive list of supported clients even if they are in the experimental phase. One may wish to experiment.\n\n[1] - https://news.ycombinator.com/item?id=37955264\n\n[2] - https://xmpp.org/extensions/xep-0474.html"},{"id":"49087187","code":"designing-against-click-through","who":"A2","year":"2026","thread":"Ask HN: Which Jabber clients support SCRAM+ and XEP-0474","text":"Related to this thread [1] which Jabber clients not only detect MitM tampering when a valid cert is used in the middle but is not the cert on the server, meaning an entity obtained a certificate, used it to MitM the connection and the client not only rejects this alternate valid certificate but also alerts the user to the MitM. XEP-0474 SASL SCRAM Downgrade Protection (Experimental) [2] Claude does not seem to know and I can't find any clarifying documentation, just lots of open issues.\n\nThe purpose is for writing an article on E2EE but I want to suggest clients that will alert on MitM tampering in a manor the person using the client can not accidentally ignore it. i.e. just click through a warning\n\nOn the server side eJabberd and Prosody appear to be the only server daemons supporting XEP-0474 but I just can't find a definitive list of supported clients even if they are in the experimental phase.\n\nI am not interested in an LLM answer. LLM's do not appear to know the answer and instead give the official stance that XEP-0474 is experimental which holds no value for those wishing to experiment.\n\n[1] - https://news.ycombinator.com/item?id=37955264\n\n[2] - https://xmpp.org/extensions/xep-0474.html"},{"id":"49102863","code":"designing-against-click-through","who":"A2","year":"2026","thread":"Ask HN: Which Jabber clients support SCRAM+ and XEP-0474?","text":"Related to this thread [1] which Jabber clients not only detect MitM tampering when a valid cert is used in the middle but is not the cert on the server, meaning an entity obtained a certificate, used it to MitM the connection and the client not only rejects this alternate valid certificate but also alerts the user to the MitM. XEP-0474 SASL SCRAM Downgrade Protection (Experimental) [2] Claude does not seem to know and I can't find any clarifying documentation, just lots of open issues.\n\nThe purpose is for writing an article on E2EE but I want to suggest clients that will alert on MitM tampering in a manor the person using the client can not accidentally ignore it. i.e. just click through a warning\n\nOn the server side eJabberd and Prosody appear to be the only server daemons supporting XEP-0474 but I just can't find a definitive list of supported clients even if they are in the experimental phase. they may support SCRAM+ but do not alert on tampering using a valid cert.\n\nI am not interested in an LLM answer. LLM's do not appear to know the answer and instead give the official stance that XEP-0474 is experimental which holds no value for those wishing to experiment.\n\n[1] - https://news.ycombinator.com/item?id=37955264\n\n[2] - https://xmpp.org/extensions/xep-0474.html"},{"id":"36507168","code":"habituation-by-design","who":"A122","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"There are tons of reasons to not use an internal CA.\n\nFirst, cost. You're not just going to slap the root CA onto the network drive and let the developers have at it - you're going to need infrastructure to keep the key safe and handle automated cert provisioning and suchlike - that's going to need people to maintain it. And it'll be an important part of your infrastructure, so you'll need enough experts you can maintain round-the-clock support.\n\nSecond, it reduces your security because your users will inevitably learn to ignore certificate errors.\n\nThirdly, you'll never stop the certificate errors. Oh, you're going to set them up for both Chrome and Firefox and Edge and Safari on Windows, Mac, Linux? Oops, you forgot Android and iPhone. And your CI system. And Java and Docker and Git. And the network printer and the electronics team's network-enabled oscilloscope. Think you've covered everything? Surprise, Slack is distributed in a Snap now, it's generating certificate errors.\n\nJust have your cloud provider take care of it. Not in the cloud? A wildcard cert on your load balancer will get you 99% of the value with 1% of the work."},{"id":"36507341","code":"habituation-by-design","who":"A123","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"The result is different when comparing to self-signed certificates. For instance, yes you should be careful with your key, but losing it makes your security as bad as when using self-signed certificates. Yes, you might be teaching some of your users to bypass the warnings. Just like when using self-signed certificates."},{"id":"41436340","code":"habituation-by-design","who":"A52","year":"2024","thread":"Tell HN: Microsoft Remote Desktop app for iOS does not verify server certificate","text":"By default (in the absence of a CA-signed server certificate), RDP connections between Windows PCs rely on a trust-on-first-use (TOFU) model, where the client software displays a warning [1] before sending credentials to a server whose certificate is not pinned to the registry [2].\n\n(This is somewhat similar to SSH with password, although the auto-generated self-signed RDP server certificates are only valid for 6 months for some reason, so users eventually learn to just ignore these warnings.)\n\nMicrosoft's RDP client for iOS used to work like the Windows client in this respect [3], but over the last few years I have noticed that while the Windows client kept periodically prompting me to acknowledge new self-signed certificates, the iOS client stopped doing so.\n\nRecently, I manually generated self-signed 10-year certificates for my personal laptops in an attempt to fix the TOFU model. Sure enough, while the Windows client warned me about these unfamiliar certificates, the iOS client just kept connecting. Neither reinstalling the app nor using a FQDN to connect had any effect.\n\nI tried contacting MSRC [4], but they just responded with boilerplate (\"closed as a non-MSRC case\" etc.). Could someone who works for MS tell if the app's silence on iOS is a bug or a feature? (And if it's a feature, why can't it be turned off?)\n\n[1] https://i.sstatic.net/pu5YX.png\n\n[2] HKCU\\SOFTWARE\\Microsoft\\Terminal Server Client\\Servers\\...\\CertHash\n\n[2] https://nextpointhost.com/images/knowledgebase/how_to_access_forex_vps_via_rdc_using_iphone_or_ipad_6.PNG\n\n[3] https://msrc.microsoft.com/report/vulnerability/auth/"},{"id":"45533836","code":"habituation-by-design","who":"A902","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"Yes although this runs the risk of what you commonly see at daycares and schools.\n\nThere'll be a sign that says \"Peanut free zone\" and everyone will read it and respect it.\n\nThen there'll be a sign that says \"Please be sure to pick your kid up by x o'clock.\" And everyone will read it and respect it and silently stop looking at it cause they know.\n\nAnd then there will be a sign that says \"Please keep your child at home if you suspect they might be sick.\" And everyone will read it and be a little offended because why would they do that knowingly?\n\nAfter a while the entrance will be plastered with notices and warnings that get put up and not taken down. And nobody reads them because they probably already know and it's not worth spending 20 minutes reading the entire wall.\n\nI get the external/partner emails. And a notice that outlook removed extra line breaks from the message (whew). And a notice that if there are problems reading the email I can view it in a web browser. And a helpful suggestion that Copilot can give me the tldr.\n\nOutlook is beginning to feel like daycare."},{"id":"49595797","code":"habituation-by-design","who":"A970","year":"2026","thread":"Ask HN: Why can I use macOS passkeys without biometrics","text":"So this might be a stupid question but i notices that when i use my mac open or with a magic keyboard with a touchID field i get prompted to scan my finger to use a passkey. But whenever i use a secondary monitor and a non touchID keyboard all i need to do is press \"continue\" in the passkey dialoge.\n\nI get that passkeys are bound to the device and being logged into it is itself some sort of auth it just seems wierd to me to have a security step that is so easy to circumvent that they might as well not ask for my fingerprint at all."},{"id":"26585159","code":"informed-acceptance","who":"A146","year":"2021","thread":"Ask HN: Idea for LAN local Let's Encrypt, what do you think?","text":"This will give a creepy feeling to many security experts, but here's my two cents:\n\nThe only issue with this scheme is that any device that trusts your \"internal CA\" can be MITM'd as easily as someone can use/abuse your \"get a signed HTTPS cert\" functionality.\n\nAssuming your LAN is truly not connected to the internet in any form or way, it seems like the benefits outweigh the risks --- no connection to the internet, fewer chances to MITM to begin with...\n\nAs an additional security measure, you could use a PKIX name contraint [?] to restrict your CA to be trusted only for *.myinternal.lan, so even if your internal CA issued a cert for mail.google.com, it would be rejected by the cert chain verification. ([?]: not entirely sure this works everywhere)\n\nAlternatively, if this is a limited internet scenario, and not a truly no uplink whatsoever, maybe you could get a wildcard LetsEncrypt cert, and share that across your IOT devices."},{"id":"31409704","code":"informed-acceptance","who":"A68","year":"2022","thread":"Problems with my SSL certificate (Let's Encrypt)","text":"Did you reply to HTTPS requests before with no or an invalid certificate that the customer might have approved to use anyways? Then the domain will be marked unsecure until he restarts his browser. You current HTTPS setup seems to be valid (https://www.ssllabs.com/ssltest/analyze.html?d=planodi.com&h...)."},{"id":"33133644","code":"informed-acceptance","who":"A65","year":"2022","thread":"Ask HN: Why mobile Chrome says HTTPS site is not secure?","text":"It happens often (at home, mobile or random wifi networks): Chrome shows a warning that a website is not secure and asks if I want to proceed. I do and the website shows the lock icon and the certificate is valid.\n\nIt just happened with HN.\n\nWhat gives?"},{"id":"41482009","code":"informed-acceptance","who":"A38","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"They are very likely keeping track of blocked domains'/DoH servers' IP addresses and have a routing rule that routes packets to those websites to somewhere else, very likely something like \"this site is blocked\" kind of informational webpage on their servers, but since this is HTTPS the certificates don't match (since the IP department doesn't have the private key of the actual website's certificate) so you get a certificate warning.\n\nI wouldn't accept that certificate, and if you have already done so, I'd remove it immediately from my device's certificate store."},{"id":"43086072","code":"informed-acceptance","who":"A85","year":"2025","thread":"Setting up a trusted, self-signed SSL/TLS certificate authority in Linux","text":"Some of us are aware of the risks and choose to accept them. Last week I tried to analyze HTTPS traffic on my Linux machine using MITM to check what some programs were sending back home, but omg, it was a pain, I also partially failed. Some apps just ignore system certs and use their own. Tools like mitmproxy help (docs are lacking btw). I paid for both the devices and the software, shouldn't I be able to take a peek at what they are doing?"},{"id":"48563100","code":"informed-acceptance","who":"A1090","year":"2026","thread":"Google asking many to select a client certificate erroneously","text":"Yeah I would definitely hit no. Should have collected network information while it happened.\n\nWhat was also interesting is that it prompted me to select a certificate that was definitely not for that page, ie. it accepted any and all certs, not just ones that are for a certain page (I have incus web generated certificates that should be only for that domain and page, which definitely have nothing to do with Google)."},{"id":"36506195","code":"org-friction-as-cause","who":"A117","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"Unfortunately, enterprises are intensely risk averse. I worked at a place where we could only generate proper certs by manually submitting a ticket to IT and waiting probably days to get it back, giving us zero hope of applying meaningful automation. Getting certs from a proper CA was absolutely forbidden, despite our lobbying, so in a lot of cases self-signed certs were the only option if we wanted to automate."},{"id":"36506755","code":"org-friction-as-cause","who":"A118","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"Where I work it’s months, and fights, and maybe even several meetings. And that’s only if you fill out the correct form the exact right way. Any slight deviation and your ticket is closed weeks after you opened it with the field you got wrong."},{"id":"45531438","code":"org-friction-as-cause","who":"A894","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"Re: the receive email -> click URL -> enter credentials.\n\nWe need SSO to stop being gated behind enterprise tiers. SSO tax is real, and can help solve this problem. I've moaned about this before as the leader of an IT team for a medium-sized company reliant on a lot of SaaS.\n\nEnterprise plans are too much (both in terms of cost and features) for us, but we are smart enough to have security requirements and one of those is SSO & SCIM. Very few SaaS offers that on anything but the most expensive \"call for quote\" tiers. That's a huge problem.\n\nThat whole email invite->click link->enter credentials workflow is gone with proper SCIM provisioning and SSO. It's the bare minimum a SaaS product should offer and should be on the lowest available tier.\n\nThe other problem are services like DocuSign, which offer free trials that are abused to send out fake documents. User gets a legitimate email from DocuSign's domain, clicks on it, opens up a real document in the real DocuSign site, but the doc has a link to the phishing site.\n\nAll DocuSign needs to do is require a CC for the trial or contacting sales for a trial, problem solved. But they don't, so as far as I'm concerned they are complicit in enabling phishing."},{"id":"45534624","code":"org-friction-as-cause","who":"A924","year":"2025","thread":"Cybersecurity training programs don't prevent phishing scams","text":"I have created an internal tool for my company. They are plugins that are installed in the browsers for the computers owned by the business, and reports the domain when you open a new browser or tab with a url that you did not manually typed. If blacklisted, it completely blocks the browser. If it is the first time we see the domain, we display a pop up “think before you act” and the it department will dive deep to whitelist it.\n\nThe first week there is a bit of noise while we whitelisted the common domains used by the users. After that it really puts you back on alert when you clicked on a email that takes you to new domains - that could be used for phishing."},{"id":"36508087","code":"removing-the-warning-is-the-goal","who":"A127","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"I have one supplier that uses letsencrypt to generate a wildcard certificate, then distributes it as part of a software update to thousands of machines in hundreds of companies across the world. The exact same certificate and key. But it gets rid of the red X in a browser so tick\n\nIt's less secure than a self signed cert. OK you can't just sniff traffic and decode it thanks to Elliptic Curve, despite having the cert+key, but you can MITM just as much, and not throw an error.\n\nWith a self-signed if someone has accepted and cached the self-signed cert you can't MITM them without throwing an error."},{"id":"43085175","code":"removing-the-warning-is-the-goal","who":"A91","year":"2025","thread":"Setting up a trusted, self-signed SSL/TLS certificate authority in Linux","text":"https://github.com/caddyserver/caddy/issues/5759 :\n\n> When generating a CA cert via caddy and putting that in the trust store, those private keys can also forge certificates for any other domain.\n\nRFC5280 (2008) \"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile\" > Section 4.2.1.10 Name Constraints: \nhttps://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.... :\n\n> The name constraints extension, which MUST be used only in a CA certificate, indicates a name space within which all subject names in subsequent certificates in a certification path MUST be located. Restrictions apply to the subject distinguished name and apply to subject alternative names. Restrictions apply only when the specified name form is present. If no name of the type is in the certificate, the certificate is acceptable.\n\n> Name constraints are not applied to self-issued certificates (unless the certificate is the final certificate in the path). (This could prevent CAs that use name constraints from employing self-issued certificates to implement key rollover.)"},{"id":"43088786","code":"removing-the-warning-is-the-goal","who":"A92","year":"2025","thread":"Setting up a trusted, self-signed SSL/TLS certificate authority in Linux","text":"If this is now finally supported that's great. The issue was that for it to be useful it has to be marked critical / fail-closed, because a CA with ignored name constraint == an unrestricted CA. But if you make it critical, then clients who don't understand it will just fail. You can see how this doesn't help adoption."},{"id":"41480034","code":"sanctioned-mitm","who":"A31","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"My school has a bring-your-own-device wifi which obviously necessitates blocking of certain categories of websites. Previously I used to be able to bypass their DNS blocking using DoH, but now this does not work anymore. Instead, trying to access a blocked website gets me a wrong/unsafe certificate warning followed by a Fortinet/Fortiguard blockpage when I click continue. Upon inspection I can see that the certificate is issued by Fortinet, which explains the warning. On non-blocked websites I do not get a warning and the certificate appears correct.\n\nHow does this work? Is this some kind of MITM-Attack on me (I do not remember having had to install any special certificates, but I do not know how to check this)? Is there a convenient way to bypass this (i. e. not Tor et al.)?\n\nI respect the IT companys efforts to secure the schools network (The IT company is universally hated by the entire school - They block the sites the teachers want to use, the youtube videos sometimes used for lessons, make the schools computers slow through McAfee and other bloat and prevent us learning about computer networks in class by blocking school-pc-to-school-pc connections in the firewall. Oh, and they also recently took in all the school issued I-Pads for an update only to delete all personal files on them; fortunately I do not use these out of principle, although I believe everyone managed to recover from cloud backups), but I would like to understand what they are doing to the network.\nFurthermore I am concerned about the legality of what they are doing (German law) and if they are able to read my private data that flows through the network (the network is personal login only, which would make that even worse).\nAlso I find it disconcerting that my school blocks hrw.org (i. e. human rights watch) which I believe sends a wrong message.\n\nIf there is any testing I can/need to do for further analysis I would appreciate you telling me.\nThank you! This is actually my first post here on HN as a long time lurker."},{"id":"41481910","code":"sanctioned-mitm","who":"A33","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"If you are getting a certificate warning then the dns lookup is succeeding but the (tcp) packets are under inspection (decrypted by the firewall and then re-encrypted). DoH only encrypts the DNS name resolution, which is only one method used by orgs to inspect traffic.\n\nTo solve this you need a VPN so that the packets are encrypted by something in addition to TLS"},{"id":"41482145","code":"sanctioned-mitm","who":"A41","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"Wrong / unsafe cert warning means you haven't installed their certs. They're trying to mitm you, but your browser is protecting you.\n\nIt's almost certainly SNI, it's the plaintext hostname. Servers rely on it being present to route, so the only way around it is to tunnel through the firewall with a vpn"},{"id":"41482312","code":"sanctioned-mitm","who":"A45","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"TLS (websites) on your personal device is not being MITM by the Fortigate. TLS on your school's devices are.\n\nThe page you're not seeing with the certificate error is just the \"This site is blocked by FortiGuard\" page. You're not seeing it because you don't have their cert installed in your device (which is good, don't install it). If you visit a blocked site on a school device, you'll see the page.\n\nSorry, I don't know how the Forti's block DoH.\n\nTo everyone recommending VPNs, SSH, etc: the Fortigate does application control and is going to catch like 99% of those shenanigans.\n\nSide note: Bypassing the network guardrails setup by a school or workplace is usually against their usage agreement. Even if you're not bypassing for nefarious reasons, it's probably not worth the potential consequences of getting caught."},{"id":"41482609","code":"sanctioned-mitm","who":"A48","year":"2024","thread":"Ask HN: How does my school block DoH?","text":"> Instead, trying to access a blocked website gets me a wrong/unsafe certificate warning followed by a Fortinet/Fortiguard blockpage when I click continue.\n\nThis is likely the Fortigate SSL/TLS deep inspection (<https://docs.fortinet.com/document/fortigate/7.6.0/best-prac...>). In short: The Fortigate conducts an organizationally sanctioned MITM attack on your web browsing. You would not get any warning if the public key of the certification authority on the Fortigate had been installed on your client. In corporate Windows environments this is usually done via group policies.\n\nSome websites may appear not to be subjected to deep inspection if those websites were exempt from SSL/TLS deep inspection. They'd be using SNI or the CN / SAN contents of the certificate presented by the website to make a policy decision against an allow or deny list of sites.\n\nAnother possible scenario would be that you have the MITM CA installed but the block page your browser gets redirected to by the Fortigate was signed by another CA / self signed. But that would certainly be a misconfiguration on the Fortigate.\n\nAnyway. Your web browser allows you to inspect the certificate and more crucially the certificate chain used to verify the validity of a certificate. Look at the root certificate when you suspect a connection to be inspected. If the name of the root CA isn't already giving it away, you should be able to verify that it is a benign public CA by googling for it.\n\nGiven the rest of your experience, I'm guessing the IT staff wants to increase control over what applications and sites can be used over the school network. It is rather easy to detect and block DoH and other possible filter evasions when you can decrypt all communication.\n\n> Also I find it disconcerting that my school blocks hrw.org (i. e. human rights watch) which I believe sends a wrong message.\n\nYou can check how a site is categorized by the Fortigate here: https://www.fortiguard.com/webfilter\n\nCurrently https://www.hrw.org/ is categorized as \"Advocacy Organizations\" in the group \"Adult / Mature Content\". I'm going to guess the whole \"Adult / Mature Content\" group has been blocked and you found a striking example of over blocking.\n\nNow... what can you do about it? The easiest and least troublesome solution would be to just ignore the nosy IT infrastructure and use the school computers and their network just for the work assigned to you. I'm guessing you have unfiltered access to the Internet off campus anyway. Or you could tether you device to your mobile phone and bypass all filtering that way.\n\nSubverting the school's attempts to limit your access is certainly a possibility given sufficient tenacity to learn and a certain kind of creativity with a tendency to cause mischief. But I'll leave it to you to figure out the details. When your actions get you into trouble: You have asked for it. Act accordingly."},{"id":"48562859","code":"sanctioned-mitm","who":"A1090","year":"2026","thread":"Google asking many to select a client certificate erroneously","text":"Google just prompted me to select a certificate for\nlh3.googleusercontent.com:443\n\nI'm not alone in this, also happened to my friend, and also posted to Reddit:\n\nhttps://www.reddit.com/r/techsupport/comments/1u7h672/browser_asking_me_to_select_certificate_is_it_a/\n\nSeems like somebody definitely misconfigured something somewhere. The question is then was this the direct result of the misconfiguration, or someone abusing a misconfiguration. Client certificates can be used to identify people so this is a good way to mass collect certs. This data could also be used to analyse client certificates that are around."},{"id":"48574441","code":"sanctioned-mitm","who":"A1091","year":"2026","thread":"Google asking many to select a client certificate erroneously","text":"From https://support.cloud.google.com/portal/system-status:\n\nStatus:\nFully Resolved\n\nProduct group:\nGoogle Workspace\n\nProducts affected:\nAdmin Console, Chrome Browser, Endpoint Management\n\nStart time:\nTuesday, June 16, 2026, 10:28:15 PM GMT-07:00\n\nEnd time:\nTuesday, June 16, 2026, 10:28:24 PM GMT-07:00\n\nDescription:\nA subset of users within the EU and Americas regions may have encountered a TLS certificate pop-up while using Workspace Apps.\n\nSteps to reproduce:\nImpacted users may have encountered a popup where \"lh3.googleusercontent.com\" is asking for a TLS certificate when using any Workspace Apps.\n\nThis issue does not impact any critical functions on the corresponding Apps, as an option to bypass the prompt is available to users.\n\nWorkaround:\nThe issue is mitigated now.\n\nUpdates:\nTuesday, June 16, 2026, 5:31:51 PM GMT-07:00:\n\nWe are investigating a potential issue with Chrome Browser.\n\nWe will provide more information by Tuesday, 2026-06-16 18:00 PDT.\n\nTuesday, June 16, 2026, 5:40:40 PM GMT-07:00:\n\nWe are investigating the authentication prompt issue on Chrome browser beginning on Tuesday, 2026-06-16 05:30 PDT.\n\nOur engineering team continues to investigate the issue.\n\nWe will provide an update by Tuesday, 2026-06-16 19:00 PDT with current details.\n\nWe apologize to all who are affected by the disruption.\n\nTuesday, June 16, 2026, 7:05:40 PM GMT-07:00:\n\nWe are investigating the authentication prompt issue while using Workspace Apps beginning on Tuesday, 2026-06-16 05:30 PDT.\n\nOur engineering team has identified the root cause and mitigation is currently underway. We do not have ETA for mitigation at the moment.\n\nWe will provide an update by Tuesday, 2026-06-16 20:30 PDT with current details.\n\nTuesday, June 16, 2026, 8:16:33 PM GMT-07:00:\n\nWe are investigating the authentication prompt issue while using Workspace Apps beginning on Tuesday, 2026-06-16 05:30 PDT.\n\nOur engineering team has identified the root cause and mitigation is currently underway. We do not have ETA for mitigation at the moment.\n\nWe will provide an update by Wednesday, 2026-06-17 00:00 PDT with current details.\n\nTuesday, June 16, 2026, 10:28:15 PM GMT-07:00:\n\nThe issue with Workspace Apps has been resolved for all affected users within the EU and Americas regions as of Tuesday, 2026-06-16 19:41 PDT\n\nFrom a preliminary analysis, the issue was due to a configuration error that inadvertently requested client certificates. Our engineers have mitigated the issue by fully rolling back the affected configurations to a previous working state.\n\nWe thank you for your patience while we worked on resolving the issue."},{"id":"33112247","code":"trust-store-unmaintainable","who":"A140","year":"2022","thread":"Ask HN: Is DNS and HTTPS on a private network a problem for you?","text":"I run a ACME server with smallstep, but yeah, that means I had to install my CA on all devices. At least it's limited to my internal domain.\n\nDNS is handled by piHole, which forward internal requests to the opnsense. DHCP clients are on their own subdomain.\n\nThe opnsense ACME clients doesn't refresh the cert properly (I have a low life time), but other than that it works nice.\nAll services force HTTPS, except Mealie and the \"homepage\" (for guest access)."},{"id":"36505419","code":"trust-store-unmaintainable","who":"A110","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"Don’t bake trust stores into container images. At work we have a single place where trusted certs (commercial CAs plus our company root CA) are configured, and then those are mounted in the appropriate format (big PEM file for /etc/ssl, trust store for Java apps, etc) as a volume in deployments in all clusters.\n\nThis means that trust store updates are not dependent on the OS vendor, they’re consistent between native/Java/etc, and updates don’t require rebuilding container images."},{"id":"36505958","code":"trust-store-unmaintainable","who":"A129","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"That’s kind of the same problem as mentioned here though, you still have to mount that root CA in all your pods.\n\nAn internal CA is also, while achievable with cert-manager these days, not exactly trivial to set up."},{"id":"36506110","code":"trust-store-unmaintainable","who":"A116","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"Yes an internal CA is better than a self-signed-cert. However, I've come across, quite often, where an internal CA causes problems that are only at that enterprise. Using the established public CAs is generally more resilient, and there's _no reason to not_."},{"id":"36510367","code":"trust-store-unmaintainable","who":"A129","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"Simple if you’re already familiar with cert-manager.\n\nThe annoying part is getting it mounted in every pod that needs it and needs to consume it, which is the point the original article made. Node has its own way of doing it, Java has its own way of doing it, etc etc and they all have their own little ideosyncracies that you have to worry about."},{"id":"36512276","code":"trust-store-unmaintainable","who":"A102","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"I've been working on a different approach to try to make it as easy as possible to use certificates from public CAs for private networks. I think it's really hard to get all your trust stores updated with private CA certs; there's just too many of them. I've encountered devices that weren't properly configured at every company I've worked at. Any time you've got a BYOD policy, a variety of mobile devices, or engineers are spinning up their own VMs (which don't copy the trust store of the host) you're going to see certificate warning messages. Back when every computer ran Windows and was chained to the desk it was easier for IT departments to update trust stores, but the world has changed and it's a losing battle.\n\nI think the better approach is to just use certificates from public CAs on private networks. There's some big issues to address: how does the public CA verify internal servers which don't permit external connections, is leaking internal subdomain names a security issue? But I think these are solvable.\n\ngetlocalcert.net[1] is my project to simplify the process. Currently you can register a subdomain and use the ACME DNS-01 protocol via my site to issue certificates from from providers like Let's Encrypt. All you need to issue a certificate is a getlocalcert API key and the ability to connect out-bound to the Let's Encrypt API and the getlocalcert API. It supports a couple ACME clients and it should support cert-manager, mentioned in the article, but I haven't had a chance to test and properly document it[2]. I'm not doing anything that other subdomain registrars or DNS providers can't do, but I'm trying to address the public-CA-on-private-server niche as best as possible. Longer term I'm looking to add bring-your-own-domain support and other improvements.\n\n[1] https://www.getlocalcert.net/\n\n[2] https://docs.getlocalcert.net/acme-clients/cert-manager/"},{"id":"47618945","code":"trust-store-unmaintainable","who":"A77","year":"2026","thread":"Show HN: I rewrote my 2012 self-signed cert generator in Go – cert-depot.com","text":"Nice rewrite. The SAN support is the right call, a lot of older generators trip on that.\n\nOne thing worth knowing if you're using this for internal services: generating the cert is the easy part. Getting the CA cert into the trust stores of everything that needs to trust it is where self-signed deployments usually turn into a maintenance problem, especially across a mix of Linux servers, Windows machines, and Java apps with their own keystores."},{"id":"40088421","code":"vendor-undermines-trust","who":"A53","year":"2024","thread":"ESET antivirus breaks Node.js without warning","text":"ESET started scanning SSL certificate chains for nodejs, which is a good feature. If you're using node without a full chain then it will block the requests. Unfortunately, they did so without warning, which broke our GitHub Actions Runner and our dev machines.\n\nESET deployed the change silently, breaking nodejs implementations and leaving people scrabbling around trying to add node to the SSL scan exception list.\n\nIs it reasonable to expect some warning before a change like this?\n\nI might be forced to choose a replacement. What's your goto brand of antivirus/botnet detection for server and workstation with centralised cloud management?"},{"id":"47457162","code":"vendor-undermines-trust","who":"A5","year":"2026","thread":"Tell HN: H&R Block tax software installs a TLS backdoor","text":"Just a PSA for folks here in the US because tax season is coming up and some of you may be using H&R Block Business 2025. I discovered that the software installs a root CA named \"WK ATX ServerHost 2024\" (expiry 2049) into your local machine trusted root certificate store. They also helpfully include the private key to this certificate in a DLL file. This certificate does not identify itself as \"H&R Block\" anywhere and does not get uninstalled when you uninstall the software.\n\nI've been able to successfully use this root CA + mitmproxy to manipulate TLS traffic on a brand new virtual machine on the same network with a DNS spoofing attack. Demo: https://www.youtube.com/watch?v=5paxvYkz1QE\n\nTo test if your machine is vulnerable visit this page: https://hrbackdoor.yifanlu.com and if you do not get any warning or error message from your browser then you have the backdoor installed. If your browser does complain, you can choose to visit the page anyways for more details on the vulnerability.\n\nIs it negligence or a \"real\" back door? It's impossible to tell and since the private key is out there, anyone can use it so the point is moot. There is no legitimate reason why they need to install a wildcard root CA under a different name. When I contacted them about it their statement includes \"similar findings have been identified through internal security assessments\" meaning they know about this issue but have not fixed it. I would not trust H&R Block software at this point.\n\nIf you didn't get bit by this, congratulations. See this post as a reminder to audit your trusted root CA store."},{"id":"26584730","code":"warning-cannot-be-satisfied","who":"A144","year":"2021","thread":"Ask HN: Idea for LAN local Let's Encrypt, what do you think?","text":"This is an attempt at a solution to the problem of \"I have a LAN service or an IOT device, and it can't serve HTTPS because it isn't on the open internet to reach Let's Encrypt\".\n\nIt's becoming increasingly troublesome these days to run a service on insecure HTTP. Doubly so to run a service with a self signed certificate, which gets treated as a sign of evil intent by all browsers. Creating your own CA cert and installing it as a trust root is possible, but bothersome. It's implausible for non technical people to learn to do this.\n\nServers on the open internet can use Let's Encrypt to prove that they control their site, and obtain a certificate. This isn't true if the service is on a LAN-local IP and not accessible from outside. For example, a device that puts itself on your Wi-Fi.\n\nNew idea: suppose there is a service that exists on your LAN, perhaps normally living in your router the same way that DHCP does, and it exposes two operations:\n\n- get a CA cert: used by browsers accessing HTTPS sites when they are on the LAN, the CA cert is included among the trust roots for this one operation.\n\n- get a signed HTTPS cert: used by services in a similar way to Let's Encrypt to obtain a certificate that identifies them as a secure service on the LAN. Might either be open access (on a home Wi-Fi router) or whitelisted (in an office).\n\nOver to you HN, do you think this is a good idea?"},{"id":"26585746","code":"warning-cannot-be-satisfied","who":"A145","year":"2021","thread":"Ask HN: Idea for LAN local Let's Encrypt, what do you think?","text":"some standard way\n\nBrowsers and IoT today have no standard way to do this today aside from corporate managed workstations like active directory policies. The mechanisms could include broadcast packets like ssdp, or DHCP options with some mangled use of wpad_url, but the browsers and IoT today don't have such a mechanism for certs. So it will be on you or a team you build to write the RFC's for this, create standard client libraries that can be used in IoT and browsers, then get everyone to adopt them. Maybe a smaller baby-step would be to see if there is a way to write the client as a browser addon. Assuming this is even possible with the sandboxing of addons today, if it became popular enough, maybe browser vendors would uptake your code as a standard function in the browser. IoT manufacturers are all over the board on standards and seldom agree on one thing. Maybe you could start with high end enterprise IoT devices that live on corporate networks. Some generic IoT devices today work around this by just accepting any cert but you can't predict what devices will do this."},{"id":"36506246","code":"warning-cannot-be-satisfied","who":"A126","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"- Certificate Transparency logs leak internal domain names, therefore potentially internal infrastructure or product still in stealth mode\n- HTTPS challenge requires opening the network to the entire internet\n- DNS challenge requires API access to the DNS provider. The DNS entries are the keys to the castle (MX mainly). Some names ever operators don’t offer sensible API access (none at all, or poor scoping (single token with global admin access))"},{"id":"36507332","code":"warning-cannot-be-satisfied","who":"A119","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"So I'll route my CI integration tests that test communication from application to database through the loadbalancer? And I'll teach the loadbalancer to talk to itself to talk to the autoscaling web backends it needs to talk to because only the loadbalancer has a valid certificate? Nice brain-knot.\n\nAnd talking about security risks, wildcard certs are especially dangerous and should be forbidden from ever existing. They just lead to \"copy it everywhere\"-keys that, sooner or later, will leak. And that won't be revoked or replaced, because of course everything will break at once.\n\nOh, and the certificate errors will also come with external CAs. Chain too long? Error in some browsers. ECC signature? Error in some browsers. Chain with different paths? Error in some browsers. 4096bit certificate somewhere? Error in some browsers. Two different valid roots? Error in some browsers."},{"id":"36507921","code":"warning-cannot-be-satisfied","who":"A124","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"I think you've entirely misunderstood the discussion here. Your post seems to be about using internal certificates for an externally visible website (although I'm confused about the mention of network printers and Slack--are you thinking this is a MITM certificate? nobody had suggested using an internal CA for those things) but that's not what anyone here was talking about. They're talking about internal use for communication between your own backend services.\n\nRecall the post that started this subthread:\n\n> Having to communicate with outside is kinda overkill if you just want to have container A talking to container B.\n\nThe article here is about the same.\n\n#2 and #3 in your post don't apply; we're not talking about browsers or end users at all here. #1 may apply but I think you're overstating it; Active Directory Certificate Services takes care of all that. Remember that you don't have to follow the CA Baseline Requirements as a private CA. It's harder to get rid of an ADCS PKI than to set it up."},{"id":"36508005","code":"warning-cannot-be-satisfied","who":"A121","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"I'm sorry but this is simply not true. Certificate Transparency logs ARE (meta?)data which would be exposed. If the certificates were meant to be reached externally, you wouldn't indeed care at all - but if they're for internal flows (e.g. App server to DB, 2 steps behind a balancer and a set of web frontends) you are indeed publishing stuff you would have rather kept private.\n\nBefore this (d)evolves into a zero trust, security-by-obscurity discussion - some auditors won't certify you in some edge cases related to this, and you may be operating in a regulated sector where such a certification is necessary. Just because it doesn't impact your use case, doesn't mean this is the case for someone else."},{"id":"37321957","code":"warning-cannot-be-satisfied","who":"A57","year":"2023","thread":"Show HN: Combobulator – a locally run, management web-app for Amazon Redshift","text":"1. I have for some time been working on a browser-based app which is a management console for Amazon Redshift.\n\n2. It is not cloud based - you run it locally, no network access, no superuser, and no privs to read your actual tables; the design is intended to make it viable to use with the most sensitive of data.\n\n3. While the Russo-Ukraine war continues, all income barring business costs goes to the Ukrainian military.\n\nThe home page for Combobulator is here;\n\nhttps://www.redshiftresearchproject.org/combobulator/index.html\n\nThe live demonstration system is here;\n\nhttps://34.200.189.75\n\nCombobulator uses HTTPS, but where there is no IP name, a self-signed SSL certificate has to be used; you’ll need to click through the warnings from the browser."},{"id":"39737209","code":"warning-cannot-be-satisfied","who":"A97","year":"2024","thread":"Show HN: Website for creating self-signed certificates","text":"If you're developing locally and need to use HTTPS for whatever, then this tool is hopefully useful to you.\n\nI made it because there's a lot of bad info online about generating self-signed certificates. For instance, a lot of guides don't use the SAN list extension or show you how to create a proper certificate chain. Firefox doesn't allow a CA certificate to be used as an end certificate. Getting a working certificate can get pretty confusing, especially for newcomers to certificates or webdev.\n\nHaving a website for this also means the process of getting a certificate is the same, no matter if you're on a Unix-like OS or Windows.\n\nA WebAssembly module built with C++ and Mbed TLS is used to create the keys and certificates. TypeScript and Preact is used for the UI."},{"id":"43084783","code":"warning-cannot-be-satisfied","who":"A93","year":"2025","thread":"Setting up a trusted, self-signed SSL/TLS certificate authority in Linux","text":"I previously used openssl-based scripts to generate certificates to use for local development or applications on a private network. I have since moved to using the step CLI [1].\n\nOpenSSL is powerful, but it's hard to figure out how to use correctly. Each command seems cryptic no matter how many times I use it.\n\nThe step CLI is a lot simpler, even though it has a few quirks: generating PKCS1 formatted private keys instead of the newer PKCS7 format, making every leaf certificate eligible to be either a server certificate or a client certificate, and absurdly low default certificate expirations.\n\n1: https://github.com/smallstep/cli"},{"id":"44031404","code":"warning-cannot-be-satisfied","who":"A26","year":"2025","thread":"Show HN: I built ServBay – An integrated local dev env for Mac (Windows coming)","text":"Hey HN,\n\nI built a dev env called ServBay. Like many of you, I've spent countless hours wrestling with local development setups. Juggling different project requirements, language versions, SSL certs, database conflicts, and just keeping everything consistent across projects often felt like a constant, frustrating battle. I wanted something more streamlined and integrated.\n\nWe all know the drill: one project needs PHP 7.4, another PHP 8.2. Then there's that legacy Python 2.7 app alongside a new Python 3.10 service. Node.js versions seem to change daily. Managing databases, getting HTTPS to work locally without browser warnings, and testing email notifications without cluttering an actual inbox... it all adds up to a lot of friction.\n\nThat's why I decided to build ServBay – an attempt to simplify and streamline this entire process on macOS. My goal was to create a tool that gets out of your way and lets you focus on coding.\n\nHere are some of ServBay's core features I think you might find useful:\n\n- One-click Version Switching (Seriously!):\n - PHP: Switch between 5.6 all the way up to 8.5 (and beyond as new versions release).\n - Node.js: Easily manage versions from 12 to 23.\n - Python: Support for legacy Python 2.7 projects, as well as modern 3.5 up to 3.24.\n - Java: OpenJDK 7 through 24, with built-in Maven for smoother Java project management.\n - Go, .Net (including ASP.NET 4.x), Ruby, Rust: We're aiming to support a broad range of languages you might need.\n - Databases: Not just the languages, but also your databases! Switchable versions for MySQL, MariaDB, PostgreSQL, and MongoDB. Spin up the right database version for your project without conflicts.\n\n- Hassle-Free SSL & Custom Domains:\n - Getting HTTPS working locally can be a real pain. ServBay includes built-in SSL certificate management (PKI based) so you can develop with https:// effortlessly for all your local projects, without those annoying browser warnings.\n - Easily map custom domains (e.g., my-project.local instead of localhost:8080/my-project) for a cleaner and more production-like setup.\n\n- Integrated Mail Testing:\n - ServBay comes with Mailpit integrated out of the box. Test email sending functionality from your local applications without spamming actual inboxes. All emails sent by your local apps are captured and viewable, making debugging a breeze.\n\n- Comprehensive Backup & Restore:\n - We've all been there – a bad config change, a corrupted database. ServBay offers peace of mind with comprehensive manual and automatic backups. This includes your website files, databases, SSL certificates, and even ServBay's own configuration.\n\nPlatform & Future:\n\nCurrently, ServBay is available for macOS.\nWe know a huge number of developers are on Windows, and I'm happy to say that a Windows version is under active development! If you're a Windows user interested in a better local dev experience, please join our waitlist here: https://www.servbay.com/join-windows-waiting-list\n\nFeedback:\nI'd be incredibly grateful if you'd give ServBay a try. You can download it and learn more here:\nhttps://www.servbay.com\n\nThis is very much an early release, and your honest feedback is crucial for its development. What do you like? What's missing? What's broken or clunky? Are there any features you'd love to see? Any suggestions, criticisms, or bug reports are incredibly welcome!\n\nPlease leave your thoughts and feedback in the comments below. I'll be here to answer any questions.\n\nThanks so much for your time and for checking out ServBay. I'm really excited (and a bit nervous!) to hear what you think."},{"id":"44135480","code":"warning-cannot-be-satisfied","who":"A26","year":"2025","thread":"Show HN: ServBay – Create Perfect macOS Development Environment with One Click","text":"Hey HN,\nLike many of you, I've spent countless hours wrestling with local development setups on macOS. Juggling different PHP or Node.js versions for various projects, manually generating SSL certs (and still getting browser warnings!), or figuring out how to reliably test email sends locally – it all felt like too much friction.\nThat's why I built ServBay. It's my solution to streamline this whole process.\nServBay is a native macOS application with a GUI designed to bundle and manage all the essential services you need for local web development. This includes web servers (Nginx, Caddy, Apache), databases (MySQL, PostgreSQL, MariaDB, MongoDB), languages (PHP, Python, Java, .NET, Node.js, Ruby, Rust), LLM (Ollama), and other handy tools like Redis and Memcached, all in one place.\nHere's how ServBay aims to make your life easier:\n- One-Click Simplicity: Spin up and manage multiple services and their versions (e.g., PHP 5.6 through 8.3+, Node.js LTS versions, Python2.7/3.5 - 3.14) with just a few clicks. No more complex command-line juggling for common tasks.\n- Automatic SSL: Get automatic SSL certificates for your local domains (e.g., project.dev, app.local, or even your real domain mapped locally). Say goodbye to manual mkcert rituals and browser security warnings.\n- Integrated Mailpit: Test email functionality effortlessly. ServBay includes Mailpit, which captures all outgoing mail locally for easy inspection and debugging, no external SMTP needed.\n- Flexible Domain Management: Easily set up custom local domains for your projects. ServBay handles the host file modifications for you.\n- True Multi-Version Support: Run different versions of PHP or Node.js side-by-side and assign specific versions to individual sites/projects .\n- One-Click Backup & Restore: Quickly back up your crucial configurations and databases, and restore them just as easily.\n- Comprehensive Service Stack: Includes Nginx (Apache support planned), PHP (many versions), Node.js, MySQL, MariaDB, PostgreSQL, Redis, Memcached, and we're always looking to add more based on demand.\nServBay aims to be simpler than manually configuring everything with Homebrew or managing complex Docker setups for common web development stacks on macOS, while being significantly more feature-rich, flexible, and macOS-native than traditional MAMP/XAMPP.\nYou can check it out and download it from: \nhttps://www.servbay.com\nhttps://github.com/ServBay/ServBay\nServBay is a commercial product, but there's a free trial available so you can see if it fits your workflow.\nI've poured a lot of effort into making ServBay genuinely useful, and I'd be thrilled to hear your thoughts, feedback, and any feature requests. How does this compare to your current macOS dev setup? What are your biggest pain points that something like ServBay could solve?\nThanks for checking it out!"},{"id":"44298562","code":"warning-cannot-be-satisfied","who":"A26","year":"2025","thread":"Show HN: ServBay – My Journey to Simplify Reserve Proxy","text":"Author here.\n\nWebsite: https://www.servbay.com\nGithub: https://github.com/ServBay/ServBay\nWindows: https://github.com/ServBay/ServBay-Windows-Release\n\nFor years, I've wrestled with a persistent problem: reliably exposing local services to the public internet. We've all paid the \"DIY tax\" for this: fighting with NAT/CGNAT, configuring DDNS for a dynamic IP, and dealing with NET::ERR_CERT_INVALID warnings from self-signed certs, all just to test a Stripe webhook or show a demo.\n\nProblem & Context\n\nThe core issue isn't a lack of tools, but their severe fragmentation. Each tool solves part of the problem but adds its own complexity:\n\nNgrok: The free tier's rotating URLs & rate limits break continuous testing. Advanced modes require digging into complex YAML.\n\nfrp: Powerful, but self-hosting frps is a project in itself (VPS, firewalls, daemons, SSL).\n\nCloudflared: Robust, but the setup is cumbersome, requiring Cloudflare auth, DNS management, and a steep learning curve.\n\nThis fragmentation means constant context switching and high cognitive overhead. We become part-time network admins instead of writing code.\n\nSolution & Methodology\n\nI built ServBay, a GUI app for macOS and Windows, to unify this chaos. It's not just a command-line wrapper, but a deep abstraction layer for these disparate protocols.\n\nUnified Control Plane: ServBay provides a GUI to start, stop, and configure tunnels with a few clicks. It handles config parsing (YAML, TOML, CLI-args), process lifecycle (start, watch, graceful shutdown), and parses stdout/stderr to display status and public URLs.\nIntelligent frpc Client: For full control, we integrated frp. You still self-host frps, but ServBay acts as an intelligent client. Just fill in your server details in the GUI, and it manages the local frpc.toml for you.\n\nBuilt-in PKI & Local HTTPS: To kill the local SSL headache, we built a PKI system. ServBay can generate a local Root CA and, with one click, install it into the system trust store (it handles the necessary privilege escalation). You can then issue browser-trusted SSL certs for any local project (e.g., my-app.dev). This is crucial for APIs requiring a Secure Context (like WebAuthn, Secure Cookies).\n\nTrade-offs\n\nOur main trade-off is Flexibility vs. Convenience. ServBay covers the 95% use case. If a tool releases a bleeding-edge feature, you'll get it faster via the native CLI than through our UI. We bet that for most developers, the productivity gain from avoiding config hell is worth that trade-off.\n\nResults & Learnings\n\nThe biggest result is drastically reduced friction. What took minutes or hours of config & debugging now takes seconds.\n\nA key technical lesson: cross-platform system-level interaction is hard. Reliably managing child processes, handling network configs, and securely modifying the OS certificate trust store is far more complex than it sounds. For instance, avoiding zombie processes on app exit required a deep understanding of each OS's process model and a lot of defensive programming.\n\nIf you've ever felt this pain, I built ServBay for us. The macOS version is out, and a Windows version is currently in beta. I'd love for you to give it a try. We're iterating quickly, and any feedback, especially from the HN community, would be invaluable.\n\nI'm happy to discuss anything in the comments, from local dev environments and network tunneling tech to cross-platform GUI development.\n\nWebsite: https://www.servbay.com\nGithub: https://github.com/ServBay/ServBay\nWindows: https://github.com/ServBay/ServBay-Windows-Release"},{"id":"45643144","code":"warning-cannot-be-satisfied","who":"A16","year":"2025","thread":"Show HN: I got tired of managing dev environments, so I built ServBay","text":"Hey HN,\n\nFor years, my local development setup has been a fragile mess of tools that never quite played nicely together. On my mac, it was a constant battle with Homebrew services starting (or not starting) on boot, conflicting PHP and Node versions managed by `asdf` or `nvm`, and a collection of `docker-compose.yml` files that I'd copy-paste and tweak for every single project. The cognitive load was just too high.\n\nSetting up SSL was another chore involving `mkcert`. Sharing a quick demo with a colleague meant firing up ngrok. And if I wanted to run two projects that needed different versions of PostgreSQL? Good luck. I’d have to stop one service to start another.\n\nI missed the simplicity of the MAMP/XAMPP era, but I needed something that could handle the diverse stack of a modern developer – not just PHP and MySQL, but Python, Go, Rust, Node.js, and various databases.\n\nThat’s why I (along with my small team) built ServBay. It's our attempt to bring back simplicity and speed to local development without sacrificing power. It's a native app for macOS and Windows, not a wrapper around Docker or VMs.\n\nHere's what it does:\n\nOne-Click Stacks: You can install and run multiple, isolated versions of languages like Python, Node.js, Go, Java, Rust, Ruby, and .NET. No more path conflicts or environment variable hell.\n\nDatabases, Plural: This was a huge one for me. You can run multiple instances of MySQL, MariaDB, PostgreSQL, Redis, and MongoDB simultaneously. Project A can use Postgres 14 while Project B uses Postgres 16, both running at the same time on different ports.\n\nAutomatic SSL: Any host you create gets a valid SSL certificate out of the box. No more browser privacy warnings for `.test` or `.localhost` domains.\n\nBuilt-in Tunneling: If you need to demo a feature or test a webhook, there's a one-click button to expose your local site to the internet via a secure tunnel.\n\nOne-Click Local AI: This is something we're really excited about. We've added a feature to easily download and run models like Llama 3 or Stable Diffusion locally through a simple UI, so you can experiment without worrying about API keys or costs.\n\nEverything Else: It also handles one-click backups, has a clean, non-intrusive UI, and is designed to be as lightweight as possible.\n\nI know what many of you are thinking: \"Why not just use Docker?\"\n\nAnd that's a fair question. We use Docker for production and complex, multi-service architectures. But for quickly spinning up a single-service app, testing a new framework, or just general day-to-day development, the overhead of `Dockerfile`s, `docker-compose.yml`, slow file sync on macOS, and resource consumption often feels like overkill. ServBay is for those moments where you just want to get to the code.\n\nThe project is still young, and we have a long roadmap ahead. I'm here all day to answer any questions, listen to your (brutally honest) feedback, and hear about what your own development workflows look like.\n\nYou can check it out here: https://www.servbay.com\n\nThanks for reading."},{"id":"48117476","code":"warning-cannot-be-satisfied","who":"A75","year":"2026","thread":"Show HN: SelfCertForge, manage root CAs and self-signed certs on macOS/Windows","text":"Hi, HN!\n\nI recently published SelfCertForge, an open source desktop app for creating and managing self-signed certificates on macOS and Windows:\n\nhttps://github.com/rbonestell/SelfCertForge/\n\nI know, I know... this isn't an earth-shattering invention. This came from a place of years of personal annoyance. I’ve been maintaining scripts that wrapped OpenSSL for local certificate workflows: create a long-lived root cert, add it to the trust store, then generate and sign child certificates for local services.\n\nThe scripts work but the workflow was clunky. Used infrequently enough that it's easy to forget the flags, not much easier to explain to anyone than OpenSSL itself, and irritating to repeat across machines. Every time I'd share them with colleagues and friends there were always questions and feature requests, so I used Claude Code to amplify my UI/UX design skills (well, I can't amplify 0...) and turned the functionality into a cross-platform GUI.\n\nSelfCertForge can generate root CAs and add them to the system's trust store, generate and sign child certificates, and export DER, PEM, PFX, and P7B formats. It also supports common X.509 fields like Subject, SANs, and Key Usage.\n\nVery important caveat: this is not suitable for production environments or public-facing SSL/TLS."},{"id":"33107611","code":"workaround-becomes-standard","who":"A136","year":"2022","thread":"Ask HN: Is DNS and HTTPS on a private network a problem for you?","text":"Recently I've been setting up a private network for myself and I wanted to expose some services over HTTPS. The only reliable method I came up with was to buy a public domain and point its DNS records to private IPs, then I could generate Let's Encrypt certificates with a DNS challenge.\n\nThe downside is that my internal domain names are now public (e.g. you can find them by looking up issued certificates for my domain through https://crt.sh or https://developers.facebook.com/tools/ct/, or by looking up the public DNS records).\n\nI could keep it all private if I set up my own root certificate, trusted it on all of my machines, and issued self-signed certificates. I could also set up my own DNS server and make all my machines use it. Needless to say, that's way more hassle than just making everything public and buying a domain.\n\nAnother way to keep it private is to issue a wildcard certificate through Let's Encrypt and point my DNS records to a reverse proxy which would use the certificate. This would require all network traffic to pass through the proxy, making it a single point of failure.\n\nHave you encountered this problem before? Did you solve making your internal DNS private?"},{"id":"33111903","code":"workaround-becomes-standard","who":"A138","year":"2022","thread":"Ask HN: Is DNS and HTTPS on a private network a problem for you?","text":"I have several services exposed to the internet which I also use internally. I also have some services which I just run internally.\n\nI run split horizon DNS[0] (As I manage both my internal and external DNS zones), which works just fine.\n\nFor external-facing services, I use Let's Encrypt (LE) certs and when internal services run on the same hosts, I use those LE certs for TLS/HTTPS.\n\nFor internal only services, where encryption is desired, I use self-signed certs. That said, in many cases, since the internal services don't actually have any data that needs data privacy across my internal network (e.g., Podgrab[1], Deluge-web[2], etc.), often I don't bother.\n\nI'm not sure (but I probably would) if I'd go that way in setting this up in 2022 (the origins of this set up go back to the 20th century), but it works for me and as it's already set up, there isn't much to do except maintain and update the zones/certs.\n\nIt's not that hard or that big a deal, IMHO.\n\n[0] https://en.wikipedia.org/wiki/Split-horizon_DNS\n\n[1] https://github.com/akhilrex/podgrab\n\n[2] https://github.com/MAESTROHANTER/deluge-web\n\nEdit: Added missing references."},{"id":"34653090","code":"workaround-becomes-standard","who":"A1121","year":"2023","thread":"Kubernetes Dashboard Through Traefik","text":"have a Kubernetes cluster (release 1.23.4) working using Traefik(release 2.7.0). I would like to access the kubernetes dashboard through IngressRoute Traefix, everything seems to work correctly no error in the log of the Traefik pod and the dashboard but when i want to access the kubernetes dashboard it can not access the page: https://k8sdash.kub.techlabnews.com/api/v1/login/status and I have an error 404.(log in the firefox console).\n\nUse this code for create the IngressRoute :\n\napiVersion: traefik.containo.us/v1alpha1\nkind: ServersTransport\nmetadata:\n name: kubernetes-dashboard-transport\n namespace: kubernetes-dashboard\n\nspec:\n serverName: \"k8sdash.kub.techlabnews.com\" \n insecureSkipVerify: true\n\n--- \napiVersion: traefik.containo.us/v1alpha1\nkind: IngressRoute\nmetadata:\n name: kubernetes-dashboard\n namespace: kubernetes-dashboard\nspec:\n entryPoints:\n - websecure\n routes:\n - kind: Rule\n match: Host(`k8sdash.kub.techlabnews.com`)\n services:\n - kind: Service\n port: 443\n name: kubernetes-dashboard\n namespace: kubernetes-dashboard\n serversTransport: kubernetes-dashboard-transport\n tls:\n secretName: kub.techlabnews-com-cert-secret-replica"},{"id":"36506258","code":"workaround-becomes-standard","who":"A128","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"From integrators' perspective, a lot of TLS stuff is often worthless, but cannot be avoided because that's how the program was written. Eg. you (an integrator) provide a service of installing and configuring Docker registry / Harbor for air-gapped systems. The intended use is to support locally deployed Kubernetes... but you have to deal with the nonsense of certificates, because removing that stuff completely from both Kubernetes and the registry is just too hard.\n\nSo, self-signed certificate is the easiest and fastest way to solve this problem.\n\nPS. Also, custom CA certificates don't work well with browsers -- browsers like to cache them and won't let go of them easily. This has adverse effects on automated UI testing with Selenium. I.e. say, you need to modify something in your cert (usually something like a domain name) and then the browser will refuse to accept it because it remembers the old one somehow...\n\nAnother problem is that errors related to certificates are very hard to debug. The popular libraries (eg. essentially, OpenSSL) are trash when it comes to error reporting. You never get clear error messages, nor a suggestion on how to fix errors. The whole thing lives in obscurity, and CAs are even worse documented than the process of creating self-signed certificates. So, people looking to solve a problem choose a solution they can find, instead of the best solution."},{"id":"36513476","code":"workaround-becomes-standard","who":"A102","year":"2023","thread":"What if your Pods need to trust self-signed certificates?","text":"A reverse proxy is another good way to handle those. The proxy trusts the self-signed certificate and itself has a valid certificate from a CA the clients trust (either public or private). This way setup on the integrator's product is easy and client's aren't exposed to \"hard to verify\" certificates."},{"id":"38039425","code":"workaround-becomes-standard","who":"A106","year":"2023","thread":"Self-Signed locally trusted certificates with cert-manager","text":"I had to generate bunch of these at work, because reasons, and I found out that you can use Caddy to do this by including `tls internal` in your Caddyfile.\n\nThe first time you install it, it will prompt you to install the root cert."},{"id":"39748034","code":"workaround-becomes-standard","who":"A98","year":"2024","thread":"Show HN: Website for creating self-signed certificates","text":"> Getting a working certificate can get pretty confusing, especially for newcomers to certificates or webdev.\n\nmkcert does this really easily, one command and the CA is trusted in the system store, firefox, etc. and also has info on how to get it working with other stuff (e.g. mobile devices or node.js)\n\nI'd say for someone who doesn't know certs, your site does not really make it easier, it's overwhelming, tons of options that people probably won't know what they mean."},{"id":"44143995","code":"workaround-becomes-standard","who":"A80","year":"2025","thread":"Show HN: LessEncrypt: A light-weight certificate signer for homelab and dev envs","text":"At work we have a few hundred internal self-signed certs we maintain, and I had a shower thought the other day about a light-weight certificate issuer targeted specifically towards self-signed certs in a largely trusted environment.\n\nLessEncrypt uses the reverse DNS of the connecting host to control the Common Name and SANs on the cert (multiple SANs can be allocated based on some mapping rules). A connection back to the host for delivery of the cert helps establish a level of trust that the cert is reaching the intended authority.\n\nI'm deploying this in my dev environment and looking for wider review and feedback on it."}],"codes":[{"id":"warning-cannot-be-satisfied","items":14,"threads":10},{"id":"control-teaches-opposite","items":13,"threads":4},{"id":"workaround-becomes-standard","items":8,"threads":6},{"id":"sanctioned-mitm","items":7,"threads":2},{"id":"trust-store-unmaintainable","items":7,"threads":3},{"id":"informed-acceptance","items":6,"threads":6},{"id":"habituation-by-design","items":5,"threads":4},{"id":"control-as-liability-transfer","items":4,"threads":1},{"id":"org-friction-as-cause","items":4,"threads":2},{"id":"designing-against-click-through","items":3,"threads":3},{"id":"removing-the-warning-is-the-goal","items":3,"threads":2},{"id":"vendor-undermines-trust","items":2,"threads":2}],"stages":[{"label":"retrieved by search","n":3158,"lost":null},{"label":"in corpus","n":1785,"lost":"215 repeats of an earlier query, 1158 comments under 200 characters"},{"label":"read individually","n":517,"lost":"1268 below the published recall gate"},{"label":"coded","n":76,"lost":"441 read and judged not to be an account of anyone deciding anything"}],"threads":30,"corpusThreads":372,"years":["2021","2022","2023","2024","2025","2026"]}</script>
+<!--/BUILD:DATA-->
+
+<script>
+(function () {
+  "use strict";
+  var node = document.getElementById("study-data");
+  var DATA;
+  try { DATA = JSON.parse(node.textContent); } catch (e) { DATA = null; }
+  if (!DATA || !DATA.items) { return; }
+
+  var CODE_BLURB = {
+    "warning-cannot-be-satisfied": "the warning names a condition the person cannot resolve where they are",
+    "control-teaches-opposite": "the control trains the behaviour it punishes",
+    "workaround-becomes-standard": "the workaround is the settled practice, not an exception",
+    "trust-store-unmaintainable": "the recommended fix does not survive real device fleets",
+    "sanctioned-mitm": "the employer or school intercepts TLS deliberately",
+    "informed-acceptance": "the person understands the risk and proceeds, with a reason",
+    "habituation-by-design": "participants state the design will teach people to ignore warnings",
+    "org-friction-as-cause": "the organisation's own process makes the secure path impractical",
+    "control-as-liability-transfer": "the control exists to move blame rather than reduce risk",
+    "removing-the-warning-is-the-goal": "the objective is the absence of the indicator",
+    "designing-against-click-through": "someone is trying to build a warning that cannot be dismissed",
+    "vendor-undermines-trust": "a vendor installs its own root, or ships a key, to avoid friction"
+  };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) { n.className = cls; }
+    if (text != null) { n.textContent = text; }
+    return n;
+  }
+  function num(n) { return n.toLocaleString("en-US"); }
+
+  /* ---- headline stats, taken from the data rather than typed ---- */
+  var byCode = {};
+  DATA.codes.forEach(function (c) { byCode[c.id] = c; });
+  var a = byCode["warning-cannot-be-satisfied"], b = byCode["informed-acceptance"];
+  if (a) { document.getElementById("s-a").textContent = a.items; }
+  if (b) { document.getElementById("s-b").textContent = b.items; }
+  var lt = document.getElementById("lim-threads");
+  if (lt) { lt.textContent = DATA.threads; }
+
+  /* ---- funnel ---- */
+  var fn = document.getElementById("fn");
+  var top = DATA.stages[0].n;
+  DATA.stages.forEach(function (s) {
+    var row = el("div", "fn-row");
+    var head = el("div", "fn-head");
+    head.appendChild(el("span", "fn-label", s.label));
+    head.appendChild(el("span", "fn-n", num(s.n)));
+    row.appendChild(head);
+    var bar = el("div", "fn-bar");
+    bar.style.width = Math.max(0.4, (s.n / top) * 100) + "%";
+    row.appendChild(bar);
+    if (s.lost) { row.appendChild(el("div", "fn-lost", "− " + s.lost)); }
+    fn.appendChild(row);
+  });
+
+  /* ---- codes chart ---- */
+  var cc = document.getElementById("cc");
+  var max = DATA.codes.reduce(function (m, c) { return Math.max(m, c.items); }, 1);
+  DATA.codes.forEach(function (c) {
+    var row = el("div", "cc-row");
+    row.appendChild(el("div", "cc-name", c.id));
+    var bars = el("div", "cc-bars");
+    [["", c.items, "items"], ["t", c.threads, "threads"]].forEach(function (p) {
+      var line = el("div", "cc-bar " + p[0]);
+      var fill = el("span", "cc-fill");
+      fill.style.width = Math.max(1, (p[1] / max) * 100) + "%";
+      line.appendChild(fill);
+      line.appendChild(el("span", "cc-v", p[1] + " " + p[2]));
+      bars.appendChild(line);
+    });
+    row.appendChild(bars);
+    cc.appendChild(row);
+  });
+
+  /* ---- evidence explorer ---- */
+  var chips = document.getElementById("chips");
+  var list = document.getElementById("ev-list");
+  var countEl = document.getElementById("ev-count");
+  var search = document.getElementById("ev-search");
+  var active = "all";
+
+  function makeChip(id, label, n) {
+    var c = el("button", "chip");
+    c.type = "button";
+    c.setAttribute("aria-pressed", id === active ? "true" : "false");
+    c.dataset.code = id;
+    c.appendChild(document.createTextNode(label + " "));
+    c.appendChild(el("b", null, String(n)));
+    c.addEventListener("click", function () {
+      active = id;
+      Array.prototype.forEach.call(chips.children, function (x) {
+        x.setAttribute("aria-pressed", x.dataset.code === active ? "true" : "false");
+      });
+      render();
+    });
+    return c;
+  }
+
+  chips.appendChild(makeChip("all", "all", DATA.items.length));
+  DATA.codes.forEach(function (c) { chips.appendChild(makeChip(c.id, c.id, c.items)); });
+
+  function render() {
+    var q = search.value.trim().toLowerCase();
+    var shown = DATA.items.filter(function (it) {
+      if (active !== "all" && it.code !== active) { return false; }
+      if (!q) { return true; }
+      return (it.text + " " + it.thread).toLowerCase().indexOf(q) >= 0;
+    });
+
+    list.textContent = "";
+    countEl.textContent = shown.length === DATA.items.length
+      ? "Showing all " + shown.length + " coded items."
+      : "Showing " + shown.length + " of " + DATA.items.length + " coded items.";
+
+    if (!shown.length) {
+      list.appendChild(el("p", "ev-empty", "No items match that filter."));
+      return;
+    }
+
+    var frag = document.createDocumentFragment();
+    shown.forEach(function (it) {
+      var item = el("article", "ev-item");
+
+      var meta = el("div", "ev-meta");
+      meta.appendChild(el("span", "ev-code", it.code));
+      meta.appendChild(el("span", null, it.who));
+      meta.appendChild(el("span", null, it.year));
+      var link = el("a", "ev-link", "on Hacker News ↗");
+      link.href = "https://news.ycombinator.com/item?id=" + it.id;
+      link.rel = "noopener";
+      meta.appendChild(link);
+      item.appendChild(meta);
+
+      if (it.thread) { item.appendChild(el("p", "ev-thread", it.thread)); }
+
+      var text = el("p", "ev-text", it.text);
+      item.appendChild(text);
+
+      if (it.text.length > 420) {
+        var more = el("button", "ev-more", "Show the full comment");
+        more.type = "button";
+        more.setAttribute("aria-expanded", "false");
+        more.addEventListener("click", function () {
+          var open = item.classList.toggle("open");
+          more.setAttribute("aria-expanded", open ? "true" : "false");
+          more.textContent = open ? "Show less" : "Show the full comment";
+        });
+        item.appendChild(more);
+      }
+
+      frag.appendChild(item);
+    });
+    list.appendChild(frag);
+  }
+
+  search.addEventListener("input", render);
+  render();
+
+  /* ---- topbar ---- */
+  var topbar = document.getElementById("topbar");
+  var hero = document.querySelector(".hero");
+  if ("IntersectionObserver" in window && hero) {
+    new IntersectionObserver(function (entries) {
+      topbar.classList.toggle("visible", !entries[0].isIntersecting);
+    }, { rootMargin: "-40px 0px 0px 0px" }).observe(hero);
+  }
+})();
+</script>
+
+</body>
+</html>

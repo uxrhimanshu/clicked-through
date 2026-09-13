@@ -3,9 +3,12 @@
 **A design-research study of what technical people do when a security warning has
 no answer they can give.**
 
-76 coded items from 372 Hacker News threads, 2021–2026. Corpus, sampling log,
+76 coded items drawn from 372 Hacker News threads, 2021–2026. Corpus, sampling log,
 screening decisions and codebook are all in this repository, so the finding can be
 argued with rather than taken on trust.
+
+**→ [Read the report](https://uxrhimanshu.github.io/clicked-through/)** — the argument,
+with all 76 items filterable by code and each linked back to the thread it came from.
 
 ---
 
@@ -72,12 +75,18 @@ Here, every step is a file:
 | [`codebook.md`](codebook.md) | code definitions, inclusion and exclusion criteria |
 | [`coded.csv`](coded.csv) | item → code, joins to the corpus on `item_id` |
 | [`corpus-lexical-screen/`](corpus-lexical-screen/) | a screening approach that **failed**, kept so the failure is inspectable |
+| [`index.html`](https://uxrhimanshu.github.io/clicked-through/) | the report, with the evidence explorable |
 
 ```sh
-python3 check_quotes.py   # every quote in FINDINGS.md really is in the corpus
+python3 check_quotes.py   # every quote, in FINDINGS.md *and* on the page, is in the corpus
 python3 screen.py report  # every retrieved item has a decision; no invented reasons
 python3 corpus_stats.py   # counts, and code spread across threads
+python3 build_site.py     # regenerate the report's data from the CSVs
 ```
+
+The page never carries hand-typed numbers. `build_site.py` writes its counts, both
+charts and all 76 items from `coded.csv` and the sampling log, so revising the codebook
+means re-running one script rather than editing HTML and hoping it still matches.
 
 `check_quotes.py` verifies that the quoted words appear in the item they are
 attributed to — not just that the id resolves. It is the check a hostile reader
